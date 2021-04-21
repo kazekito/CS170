@@ -1,9 +1,7 @@
-
 /* 
 	Name(s): Bao Lam Le, Jessie Lu
 	Assignment: Project 1
 	Description:
-
 	I acknowledge all content is our own original work
 */
 
