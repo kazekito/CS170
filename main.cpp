@@ -39,6 +39,7 @@ int main() {
             vector<int> tmpPuz; 
 
             for (int j = 0; j < 3; j++) { // column
+            cin >> val;
                 tmpPuz.push_back(val); // 1D puzzle
             }
             puzzle.push_back(tmpPuz); // creates 2D puzzle
