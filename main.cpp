@@ -49,8 +49,12 @@ int main() {
 		temp->a = 1;
 		temp->b = 2;
 		temp->cost = 0;
+		temp->paren = 0;
 		
 		temp_tree->set_root(temp);				//set root node to the tree.
+		temp_tree->add_frontier(*temp);
+		temp_tree->expand(*temp);
+		temp_tree->print_sol();
     }
     else {
         // enter own 8 puzzle
