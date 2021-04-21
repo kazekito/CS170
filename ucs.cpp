@@ -215,7 +215,7 @@ void Tree::expand(Node add){
 	
 }
 
-Node Tree::compare_goal(){
+Node Tree::compare_goal(){		//used to compare the cost of the goal.
 	int cost = goal_vector->at(0).cost;
 	int i;
 	Node temp;
@@ -231,7 +231,7 @@ Node Tree::compare_goal(){
 	return temp;
 }
 
-void Tree::trace_goal(Node *add){
+void Tree::trace_goal(Node *add){		//get the lowest 
 	this->answer.push(*add);
 	while (add->paren != 0){
 		trace_goal(add->paren);
@@ -247,5 +247,7 @@ void Tree::print_sol(){
 			}
 			cout << "}\n";
 		}
+		this->answer.pop();
 	}
+	
 }

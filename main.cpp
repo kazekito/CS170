@@ -54,6 +54,8 @@ int main() {
 		temp_tree->set_root(temp);				//set root node to the tree.
 		temp_tree->add_frontier(*temp);
 		temp_tree->expand(*temp);
+		Node temp_node = temp_tree->compare_goal();
+		temp_tree->trace_goal(&temp_node);
 		temp_tree->print_sol();
     }
     else {

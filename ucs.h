@@ -46,7 +46,7 @@ class Tree{
 					   //whichever if statement they falls into. We can use int a and int b of a Node to check this condition. if a == 2 and b == 2 --> we know that this is the bottom right of the vector.
 					   //knowing this we can only expand upward and towards the left.
 	Node compare_goal();
-	void trace_goal(Node*);
+	void trace_goal(Node *);
 	void print_sol();
 					   
 					   
