@@ -57,13 +57,12 @@ int main() {
 		*/
 		
 		temp.set_vect(puzzle);						//initializing root node. --> this is representative of the root node.
-		temp.child_list = new vector<Node>();
+		temp.child_list = vector<Node>();
 		temp.a = 0;
 		temp.b = 1;
 		temp.cost = 0;
 		temp.paren = 0;
 		
-		//goal_temp.vect = goal;
     }
 	
     else {
@@ -89,9 +88,10 @@ int main() {
 		
         temp_tree->set_root(temp);				//set root node to the tree.
 		temp_tree->add_frontier(temp);
-		temp_tree->print_frontier_front();
+		//temp_tree->print_frontier_front();
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
+		temp_tree->print_goal_cost();
 		
     }
     else if (algorithm == 2) {
