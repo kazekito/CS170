@@ -10,14 +10,14 @@
 using namespace std;
 
 struct Node{
-	Node(){}
+	Node();
 	vector<vector<int>> vect; //current state
 	Node *paren;
 	vector<Node> *child_list;
 	int a;  //position of the row
 	int b;  //position of the column
 	int cost;
-	
+	void set_vect(vector<vector<int>> a){ vect = a;}
 	
 };
 
@@ -31,7 +31,7 @@ class Tree{
 	stack<Node> answer;
 	public:
 	Tree();
-	void set_root(Node *root);
+	void set_root(Node root);
 	void add_frontier(Node add); //add an element to frontier
 	void add_explored(Node add); //add an element to explored
 	void add_goal(Node add); //add an element to goal vector.
@@ -45,10 +45,14 @@ class Tree{
 	void expand(Node); //we call this before we call expand_<direction>. This is just a series of if statement to check the viable directions we can expand a node. then we call the expand_<directions> based 
 					   //whichever if statement they falls into. We can use int a and int b of a Node to check this condition. if a == 2 and b == 2 --> we know that this is the bottom right of the vector.
 					   //knowing this we can only expand upward and towards the left.
-	Node compare_goal();
-	void trace_goal(Node *);
-	void print_sol();
-					   
+	void expand_frontier();
+	
+	
+	
+	
+	//********Testing functions********
+	void print_frontier_front();
+	void GoalExist();
 					   
 	
 };
