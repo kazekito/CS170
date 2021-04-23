@@ -91,6 +91,8 @@ void Tree::expand_left(Node &add){
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
 	
+	temp.dir.push_back("Move left");
+	
 	if (compare_goal(temp)){
 		add_goal(temp);
 	}
@@ -115,6 +117,7 @@ void Tree::expand_up(Node &add){
 	
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move up");
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -140,6 +143,8 @@ void Tree::expand_down(Node &add){
 	
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move down");
+	
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -165,6 +170,7 @@ void Tree::expand_right(Node &add){
 	
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move right");
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -296,7 +302,14 @@ void Tree::print_solution(){
 			print_vector(temp.paren.at(i));
 		}
 		print_vector(temp.vect);
+		cout << "Directions\n";
+		print_vector(this->root.vect);
+		for (int j = 0; j < temp.dir.size(); ++j){
+			cout << temp.dir.at(j) << endl;
+		}
 	}
+	
+	
 }
 
 

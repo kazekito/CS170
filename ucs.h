@@ -17,6 +17,7 @@ struct Node{
 	int a;  //position of the row
 	int b;  //position of the column
 	int cost;
+	vector<string> dir;
 };
 
 

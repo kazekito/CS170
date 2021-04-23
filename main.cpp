@@ -10,20 +10,27 @@
 #include <list>
 #include <iterator>
 #include <vector>
+#include <string>
+#include <algorithm> 
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
 
 int main() {
 	
+	string line1,line2,line3;
+	char *char1,*char2,*char3,*char4,*char5,*char6,*char7,*char8,*char9;
 	int choice, algorithm, val;
     vector<vector<int>> puzzle{
 	//	{1,2,3},
 	//	{4,5,6},
 	//	{7,8,0}
 		
-		{0,1,6},
-		{8,3,7},
-		{5,4,2}
+		{7,1,5},
+		{8,4,6},
+		{0,3,2}
 	};
 	
 
@@ -45,23 +52,31 @@ int main() {
     if (choice == 1) {
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
-		temp.a = 0;
+		temp.a = 2;
 		temp.b = 0;
 		temp.cost = 0;
 		temp.paren = vector<vector<vector<int>>>();
     }
 	
     else if (choice != 1){
-        // enter own 8 puzzle
-        for (int i = 0; i < 3; i++) { // row
-            vector<int> tmpPuz; 
+		for (int i = 0; i < 3; i++) { // row
+			vector<int> tmpPuz = vector<int>();
 
-            for (int j = 0; j < 3; j++) { // column
-            cin >> val;
-                tmpPuz.push_back(val); // 1D puzzle
-            }
-            puzzle.push_back(tmpPuz); // creates 2D puzzle
-        }
+			for (int j = 0; j < 3; j++) { // column
+				cin >> val;
+				puzzle.at(i).at(j) = val;
+				if (val == 0) {
+					temp.a = i;
+					temp.b = j;
+				}
+			}
+		}
+		temp.vect = puzzle;
+		temp.child_list = vector<Node>();
+		temp.cost = 0;
+		temp.paren = vector<vector<vector<int>>>();
+	
+		
     }
 
 	cout << "Enter your choice of algorithm\n";
