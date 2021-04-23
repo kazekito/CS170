@@ -17,9 +17,9 @@ int main() {
 	
 	int choice, algorithm, val;
     vector<vector<int>> puzzle{
-		{8,2,3},
-		{4,0,6},
-		{7,1,5}
+		{8,0,2},
+		{4,3,5},
+		{7,1,6}
 	};
 	
 
@@ -39,9 +39,9 @@ int main() {
 	*/
 
     if (choice == 1) {
-		temp.vect = puzzle;					//initializing root node. --> this is representative of the root node.
+		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
-		temp.a = 1;
+		temp.a = 0;
 		temp.b = 1;
 		temp.cost = 0;
 		temp.paren = vector<vector<vector<int>>>();

@@ -33,44 +33,34 @@ void Tree::remove_frontier(){
 
 
 bool Tree::compare_goal(Node add){	//check if our Node add is the same as our goal state, if not 
-	bool tru = true;
+	bool tru = false;
 	vector<vector<int>> temp{
 		{1,2,3},
 		{4,5,6},
 		{7,8,0}
 	};
 	
-	for (int i = 0; i < 3; ++i){
-		for (int j = 0; j < 3; ++j){
-			if (add.vect.at(i).at(j) != temp.at(i).at(j)){
-				return false;
-			}
-		}
+	
+	if (temp == add.vect){
+		tru = true;
 	}
+	
 	
 	return tru;
 }
 
 bool Tree::isExplored(Node add){ //execute compare add through our explored set. the logic is that if it is true, then tru = true. if it doesn't match, tru = false for the rest of the comparison. 
-	bool isTrue = false;
+	bool temp = false;
 	if (!this->explored.empty()){
 		for (int i = 0; i < this->explored.size(); ++i){
-			isTrue = true;
-			for (int j = 0; j < 3; ++j){
-				for (int k = 0; k < 3; ++k){
-					if (add.vect.at(j).at(k) != explored.at(i).vect.at(j).at(k)){
-						isTrue = false;
-					}
-				}
+			if (explored.at(i).vect == add.vect){
+				temp = true;
+				break;
 			}
-			if (isTrue){return true;}
 		}
 	}
-	else{
-		return false;
-	}
-	
-	return isTrue;
+	else{ temp = false;}
+	return temp;
 }
 
 void Tree::expand_left(Node &add){
@@ -185,61 +175,60 @@ void Tree::expand(Node add){
 			this->frontier.pop_front();
 		}
 	}
-	else if (!isExplored(add) && !compare_goal(add)){
+	else if (isExplored(add)){
+	}
+	else if (!isExplored(add)){
 		if (a == 0 && b == 0){ //blank is at top left corner.
+			add_explored(add);
 			expand_right(add);
 			expand_down(add);
-			add_explored(add);
 		}
 		else if (a == 0 && b == 1){ //blank is at the top corner
+			add_explored(add);
 			expand_right(add);
 			expand_down(add);
 			expand_left(add);
-			add_explored(add);
 		}
 		else if (a == 0 && b == 2){ //blank is at top right corner
+			add_explored(add);
 			expand_left(add);
 			expand_down(add);
-			add_explored(add);
 		}
 		else if (b == 0 && a  == 1){ //blank is at the left corner.
+			add_explored(add);
 			expand_right(add);
 			expand_up(add);
 			expand_down(add);
-			add_explored(add);
 		}
 		else if (b == 0 && a == 2){  //blank is at the bottom left
+			add_explored(add);
 			expand_up(add);
 			expand_right(add);
-			add_explored(add);
 		}
 		else if (a == 2 && b == 1){ //blank is at the bottom corner
+			add_explored(add);
 			expand_up(add);
 			expand_left(add);
 			expand_right(add);
-			add_explored(add);
 		}
 		else if (a == 2 & b == 2){ //bottom right corner.
+			add_explored(add);
 			expand_up(add);
 			expand_left(add);
-			add_explored(add);
 		}
 		else if (b == 2 &&  a == 1){ //right corner.
+			add_explored(add);
 			expand_left(add);
 			expand_up(add);
 			expand_down(add);
-			add_explored(add);
 		}
 		else if (b == 1 && a == 1){
+			add_explored(add);
 			expand_left(add);
 			expand_right(add);
 			expand_up(add);
 			expand_down(add);
-			add_explored(add);
 		}
-	}
-	else if (isExplored(add)){
-		this->frontier.pop_front();
 	}
 	
 }
@@ -247,8 +236,8 @@ void Tree::expand(Node add){
 void Tree::expand_frontier(){
 	while(this->goal_vector.empty() && !this->frontier.empty()){
 		print_frontier_front();
-		print_frontier_size();
-		print_expanded_size();
+		//print_frontier_size();
+		//print_expanded_size();
 		expand(this->frontier.front());
 		this->frontier.pop_front();
 	}
@@ -281,7 +270,9 @@ void Tree::GoalExist(){
 }
 
 void Tree::print_goal_cost(){
-	printf("Goal cost %d\n",this->goal_vector.at(0).cost);
+	if (!this->goal_vector.empty()){
+		printf("Goal cost %d\n",this->goal_vector.at(0).cost);
+	}
 }
 
 
@@ -310,10 +301,14 @@ void Tree::print_vector(vector<vector<int>> add){
 }
 
 void Tree::print_frontier_size(){
-	cout << "Frontier: " << this->frontier.size() << " ";
+	if (!this->frontier.empty()){
+		cout << "Frontier: " << this->frontier.size() << " ";
+	}
 }
 
 void Tree::print_expanded_size(){
-	cout << "Expanded: " << this->explored.size() << " \n";
+	if (!this->explored.empty()){
+		cout << "Expanded: " << this->explored.size() << " \n";
+	}
 }
 
