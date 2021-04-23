@@ -71,7 +71,7 @@ bool Tree::isExplored(Node add){ //execute compare add through our explored set.
 	return isTrue;
 }
 
-void Tree::expand_left(Node add){
+void Tree::expand_left(Node &add){
 	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
@@ -83,7 +83,8 @@ void Tree::expand_left(Node add){
 	temp.b = temp.b - 1; //change columns by 1 value to the left/
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	//add.child_list.push_back(temp);
+	add.child_list.push_back(temp);
+	temp.paren = new Node();
 	temp.paren = &add;
 	
 	if (compare_goal(temp)){
@@ -96,7 +97,7 @@ void Tree::expand_left(Node add){
 	
 }
 
-void Tree::expand_up(Node add){
+void Tree::expand_up(Node &add){
 	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
@@ -108,7 +109,8 @@ void Tree::expand_up(Node add){
 	temp.a = temp.a - 1; //change columns by 1 value to the left/
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	//add.child_list.push_back(temp);
+	add.child_list.push_back(temp);
+	temp.paren = new Node();
 	temp.paren = &add;
 	
 	if (compare_goal(temp)){
@@ -121,7 +123,7 @@ void Tree::expand_up(Node add){
 	
 }
 
-void Tree::expand_down(Node add){
+void Tree::expand_down(Node &add){
 	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
@@ -133,7 +135,8 @@ void Tree::expand_down(Node add){
 	temp.a = temp.a + 1; //change columns by 1 value to the left/
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	//add.child_list.push_back(temp);
+	add.child_list.push_back(temp);
+	temp.paren = new Node();
 	temp.paren = &add;
 	
 	if (compare_goal(temp)){
@@ -146,7 +149,7 @@ void Tree::expand_down(Node add){
 	
 }
 
-void Tree::expand_right(Node add){
+void Tree::expand_right(Node &add){
 	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
@@ -158,7 +161,8 @@ void Tree::expand_right(Node add){
 	temp.b = temp.b + 1; //change columns by 1 value to the right/
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	//add.child_list.push_back(temp);
+	add.child_list.push_back(temp);
+	temp.paren = new Node();
 	temp.paren = &add;
 	
 	if (compare_goal(temp)){
@@ -240,10 +244,27 @@ void Tree::expand(Node add){
 
 void Tree::expand_frontier(){
 	while(this->goal_vector.empty() && !this->frontier.empty()){
-		print_frontier_front();
 		expand(this->frontier.front());
 		this->frontier.pop_front();
 	}
+}
+
+void Tree::trace(){
+	Node temp;
+	int a;
+	if (!this->goal_vector.empty()){
+		temp = goal_vector.at(0);
+		a = temp.cost;
+		for (int i = 0; i < a - 1; ++i){
+			this->answer.push_back(temp);
+			temp = *temp.paren;
+		}
+	}
+}
+
+
+void Tree::set_parent(Node &child, Node parent){
+	*child.paren = parent;
 }
 
 //*******************************************************testing purposes ***********************************************************************************************************************
@@ -282,12 +303,15 @@ void Tree::print_solution(){
 		for (int i = 0; i < 3; ++i){
 			cout << "{ ";
 			for (int j = 0; j < 3; ++j){
-				cout << this->answer.top().vect.at(i).at(j) << ", ";
+				cout << this->answer.back().vect.at(i).at(j) << ", ";
 			}
 			cout << "}\n";
 		}
+		this->answer.pop_back();
 		cout << endl;
 	}
 }
+
+
 
 

@@ -88,10 +88,10 @@ int main() {
 		
         temp_tree->set_root(temp);				//set root node to the tree.
 		temp_tree->add_frontier(temp);
-		//temp_tree->print_frontier_front();
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
 		temp_tree->print_goal_cost();
+		//temp_tree->trace();
 		
     }
     else if (algorithm == 2) {
