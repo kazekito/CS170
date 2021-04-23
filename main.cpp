@@ -4,34 +4,25 @@
 	Description:
 	I acknowledge all content is our own original work
 */
-
+#include "ucs.h"
+//#include "ucs.cpp"
 #include <iostream>
 #include <list>
 #include <iterator>
 #include <vector>
-#include "ucs.h"
-//#include "ucs.cpp"
-
 using namespace std;
 
 
 int main() {
 
 	int choice, algorithm, val;
-	vector<vector<int>> puzzle;/*{
-		{2,0,3},
-		{1,8,5},
-		{4,7,6}
+	vector<vector<int>> puzzle;/* {
+		{8,0,2},
+		{4,3,5},
+		{7,1,6}
 	};*/
 
-	/*
-	vector<vector<int>> goal{
-		{1,2,3},
-		{4,0,6},
-		{7,8,0}
-	};
-	Node goal_temp;
-	*/
+
 
 	Node temp;
 	Tree* temp_tree;
@@ -48,43 +39,23 @@ int main() {
 	*/
 
 	if (choice == 1) {
-		// use default puzzle
-		/*
-		vector<int> r1 = {1,2,3};
-		vector<int> r2 = {4,8,0};
-		vector<int> r3 = {7,6,5};
-		puzzle.push_back(r1);
-		puzzle.push_back(r2);
-		puzzle.push_back(r3);
-		*/
-
 		vector<vector<int>> puzzle{
-		{2,0,3},
-		{1,8,5},
-		{4,7,6}
+				{0,1,6},
+				{8,3,7},
+				{5,4,2}
 		};
-
-		temp.set_vect(puzzle);						//initializing root node. --> this is representative of the root node.
-
-		/*for (int x = 0; x < 3; x++) {		// checks if puzzle is correct
-			for (int y = 0; y < 3; y++) {
-				cout << puzzle[x][y];
-			}
-			cout << endl;
-		}*/
-
+		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
-
 		temp.a = 0;
-		temp.b = 1;
+		temp.b = 0;
 		temp.cost = 0;
-		temp.paren = 0;
-
+		temp.paren = vector<vector<vector<int>>>();
 	}
 
 	else {
 		// enter own 8 puzzle
-		temp.child_list = vector<Node>();
+		//temp.vect = puzzle;
+		//temp.child_list = vector<Node>();
 		for (int i = 0; i < 3; i++) { // row
 			vector<int> tmpPuz;
 
@@ -98,17 +69,10 @@ int main() {
 			}
 			puzzle.push_back(tmpPuz); // creates 2D puzzle
 		}
-
+		temp.vect = puzzle;
+		temp.child_list = vector<Node>();
 		temp.cost = 0;
-		temp.paren = 0;
-
-		/*for (int x = 0; x < 3; x++) {		// checks if puzzle is correct
-			for (int y = 0; y < 3; y++) {
-				cout << puzzle[x][y];
-			}
-			cout << endl;
-		}*/ 
-
+		temp.paren = vector<vector<vector<int>>>();
 	}
 
 	cout << "Enter your choice of algorithm\n";
@@ -124,7 +88,7 @@ int main() {
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
 		temp_tree->print_goal_cost();
-		//temp_tree->trace();
+		temp_tree->print_solution();
 
 	}
 	else if (algorithm == 2) {
