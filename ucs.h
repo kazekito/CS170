@@ -12,12 +12,11 @@ using namespace std;
 struct Node{
 	Node();
 	vector<vector<int>> vect; //current state
-	Node *paren;
+	vector<vector<vector<int>>> paren;
 	vector<Node> child_list;
 	int a;  //position of the row
 	int b;  //position of the column
 	int cost;
-	void set_vect(vector<vector<int>> a){ vect = a;}
 	
 };
 
@@ -28,7 +27,7 @@ class Tree{
 	vector<Node> goal_vector; //used to store list of goal states with different costs.
 	list<Node> frontier; //we access the front of the list and pops the front. we add elements to the end of the list (push_back)
 	vector<Node> explored; //add elements but don't remove them.
-	vector<Node> answer;
+	vector<vector<vector<int>>> answer;
 	public:
 	Tree();
 	void set_root(Node root);
@@ -57,8 +56,9 @@ class Tree{
 	void GoalExist();
 	void print_goal_cost();
 	void print_solution();
-					   
-	
+	void print_vector(vector<vector<int>>);
+	void print_frontier_size();
+	void print_expanded_size();
 };
 
 

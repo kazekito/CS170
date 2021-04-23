@@ -17,19 +17,12 @@ int main() {
 	
 	int choice, algorithm, val;
     vector<vector<int>> puzzle{
-		{2,0,3},
-		{1,8,5},
-		{4,7,6}
+		{8,2,3},
+		{4,0,6},
+		{7,1,5}
 	};
 	
-	/*
-	vector<vector<int>> goal{
-		{1,2,3},
-		{4,0,6},
-		{7,8,0}
-	};
-	Node goal_temp;
-	*/
+
 	
 	Node temp;
 	Tree* temp_tree;
@@ -46,22 +39,12 @@ int main() {
 	*/
 
     if (choice == 1) {
-        // use default puzzle
-		/*
-        vector<int> r1 = {1,2,3};
-        vector<int> r2 = {4,8,0};
-        vector<int> r3 = {7,6,5};
-        puzzle.push_back(r1);
-        puzzle.push_back(r2);
-        puzzle.push_back(r3);
-		*/
-		
-		temp.set_vect(puzzle);						//initializing root node. --> this is representative of the root node.
+		temp.vect = puzzle;					//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
-		temp.a = 0;
+		temp.a = 1;
 		temp.b = 1;
 		temp.cost = 0;
-		temp.paren = 0;
+		temp.paren = vector<vector<vector<int>>>();
 		
     }
 	
@@ -91,7 +74,7 @@ int main() {
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
 		temp_tree->print_goal_cost();
-		//temp_tree->trace();
+		temp_tree->print_solution();
 		
     }
     else if (algorithm == 2) {

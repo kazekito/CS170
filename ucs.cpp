@@ -1,7 +1,9 @@
 #include "ucs.h"
 
 Node::Node(){
-	paren = 0;
+	paren = vector<vector<vector<int>>>();
+	vect = vector<vector<int>>();
+	
 }
 Tree::Tree(){
 	this->root = Node();
@@ -84,8 +86,7 @@ void Tree::expand_left(Node &add){
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
 	add.child_list.push_back(temp);
-	temp.paren = new Node();
-	temp.paren = &add;
+	temp.paren.push_back(add.vect);
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -110,8 +111,7 @@ void Tree::expand_up(Node &add){
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
 	add.child_list.push_back(temp);
-	temp.paren = new Node();
-	temp.paren = &add;
+	temp.paren.push_back(add.vect);
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -136,8 +136,7 @@ void Tree::expand_down(Node &add){
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
 	add.child_list.push_back(temp);
-	temp.paren = new Node();
-	temp.paren = &add;
+	temp.paren.push_back(add.vect);
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -162,8 +161,7 @@ void Tree::expand_right(Node &add){
 	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
 	add.child_list.push_back(temp);
-	temp.paren = new Node();
-	temp.paren = &add;
+	temp.paren.push_back(add.vect);
 	
 	if (compare_goal(temp)){
 		add_goal(temp);
@@ -178,8 +176,16 @@ void Tree::expand_right(Node &add){
 void Tree::expand(Node add){
 	int a = add.a;
 	int b = add.b;
-	
-	if (!isExplored(add)){
+	if (compare_goal(add)){
+		add_goal(add);
+		if (this->frontier.size() == 1){
+			this->frontier.front() = Node();
+		}
+		else {
+			this->frontier.pop_front();
+		}
+	}
+	else if (!isExplored(add) && !compare_goal(add)){
 		if (a == 0 && b == 0){ //blank is at top left corner.
 			expand_right(add);
 			expand_down(add);
@@ -232,10 +238,6 @@ void Tree::expand(Node add){
 			add_explored(add);
 		}
 	}
-	else if (compare_goal(add)){
-		add_goal(add);
-		this->frontier.pop_front();
-	}
 	else if (isExplored(add)){
 		this->frontier.pop_front();
 	}
@@ -244,28 +246,14 @@ void Tree::expand(Node add){
 
 void Tree::expand_frontier(){
 	while(this->goal_vector.empty() && !this->frontier.empty()){
+		print_frontier_front();
+		print_frontier_size();
+		print_expanded_size();
 		expand(this->frontier.front());
 		this->frontier.pop_front();
 	}
 }
 
-void Tree::trace(){
-	Node temp;
-	int a;
-	if (!this->goal_vector.empty()){
-		temp = goal_vector.at(0);
-		a = temp.cost;
-		for (int i = 0; i < a - 1; ++i){
-			this->answer.push_back(temp);
-			temp = *temp.paren;
-		}
-	}
-}
-
-
-void Tree::set_parent(Node &child, Node parent){
-	*child.paren = parent;
-}
 
 //*******************************************************testing purposes ***********************************************************************************************************************
 
@@ -299,19 +287,33 @@ void Tree::print_goal_cost(){
 
 void Tree::print_solution(){
 	cout << "Solution: " << endl;
-	while(!this->answer.empty()){
-		for (int i = 0; i < 3; ++i){
-			cout << "{ ";
-			for (int j = 0; j < 3; ++j){
-				cout << this->answer.back().vect.at(i).at(j) << ", ";
-			}
-			cout << "}\n";
+	Node temp;
+	if (!this->goal_vector.empty()){
+		temp = goal_vector.at(0);
+		for (int i = 0 ; i < temp.paren.size(); ++i){
+			print_vector(temp.paren.at(i));
 		}
-		this->answer.pop_back();
-		cout << endl;
+		print_vector(temp.vect);
 	}
 }
 
 
+void Tree::print_vector(vector<vector<int>> add){
+	for (int i = 0; i < 3; ++i){
+		cout << "{ ";
+		for (int j = 0; j < 3; ++j){
+			cout << add.at(i).at(j) << ", ";
+		}
+		cout << "}\n";
+	}
+	cout << "\n";
+}
 
+void Tree::print_frontier_size(){
+	cout << "Frontier: " << this->frontier.size() << " ";
+}
+
+void Tree::print_expanded_size(){
+	cout << "Expanded: " << this->explored.size() << " \n";
+}
 
