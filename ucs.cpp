@@ -33,33 +33,46 @@ void Tree::remove_frontier(){
 
 
 bool Tree::compare_goal(Node add){	//check if our Node add is the same as our goal state, if not 
-	bool tru = false;
+	bool tru = true;
 	vector<vector<int>> temp{
 		{1,2,3},
 		{4,5,6},
 		{7,8,0}
 	};
 	
-	
-	if (temp == add.vect){
-		tru = true;
+	if (add.vect == temp){
+		return true;
 	}
-	
+	else{
+		return false;
+	}
+	/*
+	for (int i = 0; i < 3; ++i){
+		for (int j = 0; j < 3; ++j){
+			if (temp.at(i).at(j) != add.vect.at(i).at(j)){
+				return false;
+			}
+		}
+	}
+	*/
 	
 	return tru;
 }
 
 bool Tree::isExplored(Node add){ //execute compare add through our explored set. the logic is that if it is true, then tru = true. if it doesn't match, tru = false for the rest of the comparison. 
-	bool temp = false;
-	if (!this->explored.empty()){
+	bool temp = true;
+	if (this->explored.empty()){
+		temp = false;
+	}
+	else {
 		for (int i = 0; i < this->explored.size(); ++i){
-			if (explored.at(i).vect == add.vect){
-				temp = true;
-				break;
+			if (this->explored.at(i).vect == add.vect){
+				return true;
 			}
 		}
+		temp = false;
 	}
-	else{ temp = false;}
+	
 	return temp;
 }
 
@@ -175,9 +188,7 @@ void Tree::expand(Node add){
 			this->frontier.pop_front();
 		}
 	}
-	else if (isExplored(add)){
-	}
-	else if (!isExplored(add)){
+	else if (!isExplored(add) && !compare_goal(add)){
 		if (a == 0 && b == 0){ //blank is at top left corner.
 			add_explored(add);
 			expand_right(add);
@@ -231,15 +242,15 @@ void Tree::expand(Node add){
 		}
 	}
 	
+	this->frontier.pop_front();
 }
 
 void Tree::expand_frontier(){
-	while(this->goal_vector.empty() && !this->frontier.empty()){
+	while(this->goal_vector.empty()){
 		print_frontier_front();
-		//print_frontier_size();
-		//print_expanded_size();
+		print_frontier_size();
+		print_expanded_size();
 		expand(this->frontier.front());
-		this->frontier.pop_front();
 	}
 }
 

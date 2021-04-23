@@ -17,9 +17,13 @@ int main() {
 	
 	int choice, algorithm, val;
     vector<vector<int>> puzzle{
-		{8,0,2},
-		{4,3,5},
-		{7,1,6}
+	//	{1,2,3},
+	//	{4,5,6},
+	//	{7,8,0}
+		
+		{0,1,6},
+		{8,3,7},
+		{5,4,2}
 	};
 	
 
@@ -42,13 +46,12 @@ int main() {
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
 		temp.a = 0;
-		temp.b = 1;
+		temp.b = 0;
 		temp.cost = 0;
 		temp.paren = vector<vector<vector<int>>>();
-		
     }
 	
-    else {
+    else if (choice != 1){
         // enter own 8 puzzle
         for (int i = 0; i < 3; i++) { // row
             vector<int> tmpPuz; 
