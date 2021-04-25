@@ -4,8 +4,9 @@
 	Description:
 	I acknowledge all content is our own original work
 */
-#include "ucs.h"
+//#include "ucs.h"
 //#include "ucs.cpp"
+#include "misplaced.h"
 #include <iostream>
 #include <list>
 #include <iterator>
@@ -54,8 +55,6 @@ int main() {
 
 	else {
 		// enter own 8 puzzle
-		//temp.vect = puzzle;
-		//temp.child_list = vector<Node>();
 		for (int i = 0; i < 3; i++) { // row
 			vector<int> tmpPuz;
 
@@ -93,6 +92,12 @@ int main() {
 	}
 	else if (algorithm == 2) {
 		// A* with Misplaced tile
+		temp_tree->set_root(temp);				//set root node to the tree.
+		temp_tree->add_frontier(temp);
+		temp_tree->expand_frontier();
+		temp_tree->GoalExist();
+		temp_tree->print_goal_cost();
+		temp_tree->print_solution();
 	}
 	else {
 		// A* with Eucledian distance
