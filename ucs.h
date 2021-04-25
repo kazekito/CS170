@@ -48,6 +48,7 @@ class Tree{
 	void trace();
 	void trace_answer(Node temp);
 	void set_parent(Node&,Node);
+	bool isFrontier(Node);
 	
 	
 	
@@ -59,6 +60,7 @@ class Tree{
 	void print_vector(vector<vector<int>>);
 	void print_frontier_size();
 	void print_expanded_size();
+	void print_cost(Node);
 };
 
 

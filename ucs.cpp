@@ -59,6 +59,17 @@ bool Tree::compare_goal(Node add){	//check if our Node add is the same as our go
 	return tru;
 }
 
+bool Tree::isFrontier(Node add){
+	list<Node>::iterator it;
+	for (it = this->frontier.begin(); it != this->frontier.end(); ++it){
+		if (it->vect == add.vect){
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 bool Tree::isExplored(Node add){ //execute compare add through our explored set. the logic is that if it is true, then tru = true. if it doesn't match, tru = false for the rest of the comparison. 
 	bool temp = true;
 	if (this->explored.empty()){
@@ -93,11 +104,12 @@ void Tree::expand_left(Node &add){
 	
 	temp.dir.push_back("Move left");
 	
+	/*
 	if (compare_goal(temp)){
 		add_goal(temp);
 	}
-	
-	if (!isExplored(temp)){
+	*/
+	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
 	
@@ -119,11 +131,13 @@ void Tree::expand_up(Node &add){
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move up");
 	
+	/*
 	if (compare_goal(temp)){
 		add_goal(temp);
 	}
+	*/
 	
-	if (!isExplored(temp)){
+	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
 	
@@ -145,12 +159,12 @@ void Tree::expand_down(Node &add){
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move down");
 	
-	
+	/*
 	if (compare_goal(temp)){
 		add_goal(temp);
 	}
-	
-	if (!isExplored(temp)){
+	*/
+	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
 	
@@ -171,12 +185,13 @@ void Tree::expand_right(Node &add){
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move right");
-	
+	/*
 	if (compare_goal(temp)){
 		add_goal(temp);
 	}
+	*/
 	
-	if (!isExplored(temp)){
+	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
 	
@@ -256,6 +271,7 @@ void Tree::expand_frontier(){
 		print_frontier_front();
 		print_frontier_size();
 		print_expanded_size();
+		print_cost(this->frontier.front());
 		expand(this->frontier.front());
 	}
 }
@@ -336,3 +352,6 @@ void Tree::print_expanded_size(){
 	}
 }
 
+void Tree::print_cost(Node add){
+	printf("Expanding depth %d...\n ",add.cost);
+}
