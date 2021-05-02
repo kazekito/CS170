@@ -29,9 +29,9 @@ int main() {
 	//	{4,5,6},
 	//	{7,8,0}
 		
-		{1,2,5},
-		{8,0,6},
-		{7,3,4}
+		{1,2,3},
+		{4,5,6},
+		{7,8,0}
 	};
 	
 	vector<vector<int>> puzzle1{
@@ -61,7 +61,7 @@ int main() {
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
 		temp.a = 2;
-		temp.b = 0;
+		temp.b = 2;
 		temp.cost = 0.0;
 		temp.Hcost = 0.0;
 		temp.Tcost = 0.0;
@@ -113,19 +113,7 @@ int main() {
 	   temp_etree->H_calc(&temp);
 	   temp_etree->add_frontier(temp);
 	   temp_etree->expand_frontier();
-	   //temp_etree->print_T(temp);
-	   //temp_etree->print();
-	   Node temp1 = temp;
-	   temp1.vect = puzzle1;
-	   temp1.Tcost = 7;
-	   Node temp2 = temp;
-	   temp2.Tcost = 9;
-	   temp_etree->add_frontier(temp1);
-	   temp_etree->add_frontier(temp2);
-	   temp_etree->isFrontier(temp1);
-	   printf("Node cost returned : %f\n",temp_etree->get_lowestcost().Tcost);
-	   temp_etree->remove_frontier(temp_etree->get_lowestcost());
-	   printf("Node cost returned : %f\n",temp_etree->get_lowestcost().Tcost);
+	   temp_etree->print_directions();
     }
 
 	return 0;

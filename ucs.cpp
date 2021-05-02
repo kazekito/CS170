@@ -168,7 +168,7 @@ void Tree::expand_right(Node &add){
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move right");
-
+	
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -187,6 +187,7 @@ void Tree::expand(Node add){
 		else {
 			this->frontier.pop_front();
 		}
+		return;
 	}
 	else if (!isExplored(add) && !compare_goal(add)){
 		if (a == 0 && b == 0){ //blank is at top left corner.
@@ -334,3 +335,4 @@ void Tree::print_expanded_size(){
 void Tree::print_cost(Node add){
 	printf("Expanding depth %d...\n ",add.cost);
 }
+

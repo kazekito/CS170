@@ -95,30 +95,181 @@ void E_tree::remove_frontier(Node a){
 			return;
 		}
 	}
+	
+	return;
 }
 
-void E_tree::expand_left(Node &a){
+void E_tree::expand_left(Node *add){
+	Node temp = *add;
+	int a; int b; 
+	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
+	b = temp.vect.at(temp.a).at(temp.b-1); //get # for position left of blank
+	temp.vect.at(temp.a).at(temp.b-1) = a; //swap blank and # to the left of blank.
+	temp.vect.at(temp.a).at(temp.b) = b;
+	
+	++temp.cost; //increase cost of our state.
+	temp.b = temp.b - 1; //change columns by 1 value to the left/
+	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	
+	add->child_list.push_back(temp);
+	temp.paren.push_back(add->vect);
+	
+	temp.dir.push_back("Move left");
+	
+	H_calc(&temp);
+	
+	if (!isExplored(temp) && !isFrontier(temp)){
+		add_frontier(temp);
+	}
 	
 }
 
-void E_tree::expand_right(Node &a){
+void E_tree::expand_right(Node *add){
+	Node temp = *add;
+	int a;
+	int b;
 	
+	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
+	b = temp.vect.at(temp.a).at(temp.b+1); //get # for position right of blank
+	temp.vect.at(temp.a).at(temp.b+1) = a; //swap blank and # to the right of blank.
+	temp.vect.at(temp.a).at(temp.b) = b;
+	++temp.cost;
+	temp.b = temp.b + 1; //change columns by 1 value to the right/
+	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	add->child_list.push_back(temp);	//add this node to add's child list.
+	temp.paren.push_back(add->vect);
+	temp.dir.push_back("Move right");
+	
+	H_calc(&temp);
+	
+	if (!isExplored(temp) && !isFrontier(temp)){
+		add_frontier(temp);
+	}
 }
 
-void E_tree::expand_up(Node &a){
+void E_tree::expand_up(Node *add){
+	Node temp = *add;
+	int a; int b; 
+	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
+	b = temp.vect.at(temp.a-1).at(temp.b); //get # for position above blank
+	temp.vect.at(temp.a-1).at(temp.b) = a; //swap blank and # to the above blank.
+	temp.vect.at(temp.a).at(temp.b) = b;
 	
+	++temp.cost; //increase cost of our state.
+	temp.a = temp.a - 1; //change columns by 1 value to the left/
+	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	
+	add->child_list.push_back(temp);
+	temp.paren.push_back(add->vect);
+	temp.dir.push_back("Move up");
+	
+	H_calc(&temp);
+	
+	if (!isExplored(temp) && !isFrontier(temp)){
+		add_frontier(temp);
+	}
 }
 
-void E_tree::expand_down(Node &a){
+void E_tree::expand_down(Node *add){
+	Node temp = *add;
+	int a; int b; 
+	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
+	b = temp.vect.at(temp.a+1).at(temp.b); //get # for position underneath  blank
+	temp.vect.at(temp.a+1).at(temp.b) = a; //swap blank and # to the underneath blank.
+	temp.vect.at(temp.a).at(temp.b) = b;
+	
+	++temp.cost; //increase cost of our state.
+	temp.a = temp.a + 1; //change columns by 1 value to the left/
+	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	
+	add->child_list.push_back(temp);
+	temp.paren.push_back(add->vect);
+	temp.dir.push_back("Move down");
+	
+	H_calc(&temp);
+
+	if (!isExplored(temp) && !isFrontier(temp)){
+		add_frontier(temp);
+	}
 	
 }
 
 void E_tree::expand(Node a){
+	int tempa = a.a;
+	int tempb = a.b;
 	
+	if (compare_goal(a)){
+		add_goal(a);
+		if (this->frontier.size() == 1){
+			this->frontier.front() = Node();
+		}
+		else{
+			//remove_frontier(a);
+		}
+	}
+	else if (!isExplored(a) && !compare_goal(a)){
+		if (tempa == 0 && tempb == 0){ //blank is at top left corner.
+			add_explored(a);
+			expand_right(&a);
+			expand_down(&a);
+		}
+		else if (tempa == 0 && tempb == 1){ //blank is at the top corner
+			add_explored(a);
+			expand_right(&a);
+			expand_down(&a);
+			expand_left(&a);
+		}
+		else if (tempa == 0 && tempb == 2){ //blank is at top right corner
+			add_explored(a);
+			expand_left(&a);
+			expand_down(&a);
+		}
+		else if (tempb == 0 && tempa  == 1){ //blank is at the left corner.
+			add_explored(a);
+			expand_right(&a);
+			expand_up(&a);
+			expand_down(&a);
+		}
+		else if (tempb == 0 && tempa == 2){  //blank is at the bottom left
+			add_explored(a);
+			expand_up(&a);
+			expand_right(&a);
+		}
+		else if (tempa == 2 && tempb == 1){ //blank is at the bottom corner
+			add_explored(a);
+			expand_up(&a);
+			expand_left(&a);
+			expand_right(&a);
+		}
+		else if (tempa == 2 & tempb == 2){ //bottom right corner.
+			add_explored(a);
+			expand_up(&a);
+			expand_left(&a);
+		}
+		else if (tempb == 2 &&  tempa == 1){ //right corner.
+			add_explored(a);
+			expand_left(&a);
+			expand_up(&a);
+			expand_down(&a);
+		}
+		else if (tempb == 1 && tempa == 1){
+			add_explored(a);
+			expand_left(&a);
+			expand_right(&a);
+			expand_up(&a);
+			expand_down(&a);
+		}
+	}
+	
+	remove_frontier(a);
 }
 
 void E_tree::expand_frontier(){
-	
+	while(this->goal_vector.empty()){
+		print_node(get_lowestcost());
+		expand(get_lowestcost());
+		goal_exist();
+	}
 }
 
 bool E_tree::position_checker(double value, double i, double j){
@@ -237,3 +388,50 @@ void E_tree::print(){
 	printf("%f\n", this->frontier.front().Tcost);
 }
 
+void E_tree::print_node(Node a){
+	for (int i = 0; i < 3; ++i){
+		cout << "{ ";
+		for (int j = 0; j < 3; ++j){
+			cout << a.vect.at(i).at(j) << ", ";
+		}
+		cout << "}\n";
+	}
+	
+	cout << endl;
+	printf("g(n): %f	h(n): %f	f(n): %f\n",a.cost,a.Hcost,a.Tcost);
+}
+
+void E_tree::goal_exist(){
+	if (!this->goal_vector.empty()){
+		printf("Goal Found\n");
+		Node temp = this->goal_vector.at(0);
+		print_node(temp);
+	}
+}
+
+void E_tree::print_directions(){
+	cout << "Solution: " << endl;
+	Node temp;
+	if (!this->goal_vector.empty()){
+		temp = goal_vector.at(0);
+		for (int i = 0; i < temp.paren.size(); ++i){
+			print_vector(temp.paren.at(i));
+		}
+		cout << "Directions\n";
+		print_node(this->root);
+		for (int j = 0; j < temp.dir.size(); ++j){
+			cout << temp.dir.at(j) << endl;
+		}
+	}
+}
+
+void E_tree::print_vector(vector<vector<int>> a){
+	for (int i = 0; i < 3; ++i){
+		cout << "{ ";
+		for (int j = 0; j < 3; ++j){
+			printf("%d, ", a.at(i).at(j));
+		}
+		cout << "}\n";
+	}
+	cout << endl;
+}
