@@ -25,20 +25,11 @@ int main() {
 	char *char1,*char2,*char3,*char4,*char5,*char6,*char7,*char8,*char9;
 	int choice, algorithm, val;
     vector<vector<int>> puzzle{
-	//	{1,2,3},
-	//	{4,5,6},
-	//	{7,8,0}
-		
 		{1,2,3},
-		{4,5,6},
-		{7,8,0}
+		{4,8,5},
+		{7,0,6}
 	};
 	
-	vector<vector<int>> puzzle1{
-		{1,2,5},
-		{8,4,6},
-		{7,3,0}
-	};
 	
 
 	E_tree* temp_etree;
@@ -61,11 +52,12 @@ int main() {
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
 		temp.a = 2;
-		temp.b = 2;
+		temp.b = 1;
 		temp.cost = 0.0;
 		temp.Hcost = 0.0;
 		temp.Tcost = 0.0;
 		temp.paren = vector<vector<vector<int>>>();
+		temp.parent_vector = vector<Node>();
     }
 	
     else if (choice != 1){
@@ -101,7 +93,6 @@ int main() {
 		temp_tree->add_frontier(temp);
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
-		temp_tree->print_goal_cost();
 		temp_tree->print_solution();
 		
     }

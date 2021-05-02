@@ -113,7 +113,7 @@ void E_tree::expand_left(Node *add){
 	
 	add->child_list.push_back(temp);
 	temp.paren.push_back(add->vect);
-	
+	temp.parent_vector.push_back(*add);
 	temp.dir.push_back("Move left");
 	
 	H_calc(&temp);
@@ -139,6 +139,7 @@ void E_tree::expand_right(Node *add){
 	add->child_list.push_back(temp);	//add this node to add's child list.
 	temp.paren.push_back(add->vect);
 	temp.dir.push_back("Move right");
+	temp.parent_vector.push_back(*add);
 	
 	H_calc(&temp);
 	
@@ -162,6 +163,7 @@ void E_tree::expand_up(Node *add){
 	add->child_list.push_back(temp);
 	temp.paren.push_back(add->vect);
 	temp.dir.push_back("Move up");
+	temp.parent_vector.push_back(*add);
 	
 	H_calc(&temp);
 	
@@ -185,7 +187,7 @@ void E_tree::expand_down(Node *add){
 	add->child_list.push_back(temp);
 	temp.paren.push_back(add->vect);
 	temp.dir.push_back("Move down");
-	
+	temp.parent_vector.push_back(*add);
 	H_calc(&temp);
 
 	if (!isExplored(temp) && !isFrontier(temp)){
@@ -394,7 +396,7 @@ void E_tree::print_node(Node a){
 		for (int j = 0; j < 3; ++j){
 			cout << a.vect.at(i).at(j) << ", ";
 		}
-		cout << "}\n";
+		printf("}\n");
 	}
 	
 	cout << endl;
@@ -410,15 +412,17 @@ void E_tree::goal_exist(){
 }
 
 void E_tree::print_directions(){
-	cout << "Solution: " << endl;
 	Node temp;
+	
 	if (!this->goal_vector.empty()){
 		temp = goal_vector.at(0);
-		for (int i = 0; i < temp.paren.size(); ++i){
-			print_vector(temp.paren.at(i));
+		printf("\n\n\n***Solution***\n");
+		for (int i = 0; i < temp.parent_vector.size(); ++i){
+			print_node(temp.parent_vector.at(i));
 		}
-		cout << "Directions\n";
-		print_node(this->root);
+		print_node(temp);
+		
+		printf("\n\n***Directions***\n");
 		for (int j = 0; j < temp.dir.size(); ++j){
 			cout << temp.dir.at(j) << endl;
 		}

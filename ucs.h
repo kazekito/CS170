@@ -22,6 +22,7 @@ struct Node{
 	double Hcost;			//h(n)
 	double Tcost;			//total cost f(n) = g(n) + h(n);
 	vector<string> dir;		//list of directions to finish the puzzle.
+	vector<Node> parent_vector;
 };
 
 
@@ -48,6 +49,8 @@ class Tree{
 	void expand(Node); //we call this before we call expand_<direction>. This is just a series of if statement to check the viable directions we can expand a node. then we call the expand_<directions> based 
 					   //whichever if statement they falls into. We can use int a and int b of a Node to check this condition. if a == 2 and b == 2 --> we know that this is the bottom right of the vector.
 					   //knowing this we can only expand upward and towards the left.
+					   
+	void print_GH(Node);
 	void expand_frontier();
 	void trace();
 	void trace_answer(Node temp);
