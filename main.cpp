@@ -6,6 +6,7 @@
 */
 #include "ucs.h"
 #include "ucs.cpp"
+#include "Etree.cpp"
 #include <iostream>
 #include <list>
 #include <iterator>
@@ -28,15 +29,22 @@ int main() {
 	//	{4,5,6},
 	//	{7,8,0}
 		
-		{7,1,5},
+		{1,2,5},
+		{8,0,6},
+		{7,3,4}
+	};
+	
+	vector<vector<int>> puzzle1{
+		{1,2,5},
 		{8,4,6},
-		{0,3,2}
+		{7,3,0}
 	};
 	
 
-	
+	E_tree* temp_etree;
 	Node temp;
 	Tree* temp_tree;
+	temp_etree = new E_tree();
 	temp_tree = new Tree();
 
 	cout << "Welcome to Bao Lam Le and Jessie Lu 8 puzzle solver.\n"; // replace names with student ID later
@@ -54,7 +62,9 @@ int main() {
 		temp.child_list = vector<Node>();
 		temp.a = 2;
 		temp.b = 0;
-		temp.cost = 0;
+		temp.cost = 0.0;
+		temp.Hcost = 0.0;
+		temp.Tcost = 0.0;
 		temp.paren = vector<vector<vector<int>>>();
     }
 	
@@ -98,8 +108,24 @@ int main() {
     else if (algorithm == 2) {
         // A* with Misplaced tile
     }
-    else {
-        // A* with Eucledian distance
+    else if (algorithm == 3){
+       temp_etree->set_root(temp);
+	   temp_etree->H_calc(&temp);
+	   temp_etree->add_frontier(temp);
+	   temp_etree->expand_frontier();
+	   //temp_etree->print_T(temp);
+	   //temp_etree->print();
+	   Node temp1 = temp;
+	   temp1.vect = puzzle1;
+	   temp1.Tcost = 7;
+	   Node temp2 = temp;
+	   temp2.Tcost = 9;
+	   temp_etree->add_frontier(temp1);
+	   temp_etree->add_frontier(temp2);
+	   temp_etree->isFrontier(temp1);
+	   printf("Node cost returned : %f\n",temp_etree->get_lowestcost().Tcost);
+	   temp_etree->remove_frontier(temp_etree->get_lowestcost());
+	   printf("Node cost returned : %f\n",temp_etree->get_lowestcost().Tcost);
     }
 
 	return 0;

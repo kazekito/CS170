@@ -6,6 +6,8 @@
 #include <iterator>
 #include <cstddef>
 #include <stack>
+#include "math.h"
+#include "stdlib.h"
 
 using namespace std;
 
@@ -16,8 +18,10 @@ struct Node{
 	vector<Node> child_list;
 	int a;  //position of the row
 	int b;  //position of the column
-	int cost;
-	vector<string> dir;
+	double cost;			//g(n)
+	double Hcost;			//h(n)
+	double Tcost;			//total cost f(n) = g(n) + h(n);
+	vector<string> dir;		//list of directions to finish the puzzle.
 };
 
 
@@ -63,6 +67,42 @@ class Tree{
 	void print_cost(Node);
 };
 
+
+
+class E_tree{
+	private:
+	Node root;
+	vector<Node> goal_vector;
+	list<Node> frontier;
+	vector<Node> explored;
+	vector<vector<vector<int>>> answer;
+	public:
+	E_tree();
+	void H_calc(Node *);
+	void set_root(Node root);				//success
+	void add_frontier(Node);				
+	void add_explored(Node);
+	void add_goal(Node);
+	bool isExplored(Node);					//success
+	bool compare_goal(Node);
+	bool isFrontier(Node);					//success
+	void expand(Node);
+	void expand_left(Node &);
+	void expand_right(Node &);
+	void expand_up(Node&);
+	void expand_down(Node&);				
+	Node get_lowestcost();					//success
+	void remove_frontier(Node);				//success
+	void expand_frontier();		
+	bool position_checker(double, double, double);	//success
+	double position_diff(double, double, double);	//success
+	
+	//Testing functions//
+	void print_T(Node);
+	void print();
+	
+	
+};
 
 
 

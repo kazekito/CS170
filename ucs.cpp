@@ -3,6 +3,9 @@
 Node::Node(){
 	paren = vector<vector<vector<int>>>();
 	vect = vector<vector<int>>();
+	cost = 0;
+	Hcost = 0;
+	Tcost = 0;
 	
 }
 Tree::Tree(){
@@ -46,15 +49,7 @@ bool Tree::compare_goal(Node add){	//check if our Node add is the same as our go
 	else{
 		return false;
 	}
-	/*
-	for (int i = 0; i < 3; ++i){
-		for (int j = 0; j < 3; ++j){
-			if (temp.at(i).at(j) != add.vect.at(i).at(j)){
-				return false;
-			}
-		}
-	}
-	*/
+
 	
 	return tru;
 }
@@ -104,11 +99,7 @@ void Tree::expand_left(Node &add){
 	
 	temp.dir.push_back("Move left");
 	
-	/*
-	if (compare_goal(temp)){
-		add_goal(temp);
-	}
-	*/
+
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
@@ -131,11 +122,7 @@ void Tree::expand_up(Node &add){
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move up");
 	
-	/*
-	if (compare_goal(temp)){
-		add_goal(temp);
-	}
-	*/
+
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -159,11 +146,7 @@ void Tree::expand_down(Node &add){
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move down");
 	
-	/*
-	if (compare_goal(temp)){
-		add_goal(temp);
-	}
-	*/
+
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
@@ -185,11 +168,7 @@ void Tree::expand_right(Node &add){
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move right");
-	/*
-	if (compare_goal(temp)){
-		add_goal(temp);
-	}
-	*/
+
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
