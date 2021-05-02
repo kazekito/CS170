@@ -31,9 +31,7 @@ void Tree::remove_frontier() {
 	this->frontier.pop_front();
 }
 
-
-bool Tree::compare_goal(Node add) {	//check if our Node add is the same as our goal state, if not 
-	bool tru = true;
+void Tree::check_misplace(Node add) {
 	vector<vector<int>> temp{
 		{1,2,3},
 		{4,5,6},
@@ -44,7 +42,6 @@ bool Tree::compare_goal(Node add) {	//check if our Node add is the same as our g
 
 	if (add.vect == temp) {
 		add.tile.push_back(misplace);
-		return true;
 	}
 	else {
 		for (int i = 0; i < 3; i++) {
@@ -55,6 +52,22 @@ bool Tree::compare_goal(Node add) {	//check if our Node add is the same as our g
 			}
 		}
 		add.tile.push_back(misplace);
+	}
+}
+
+
+bool Tree::compare_goal(Node add) {	//check if our Node add is the same as our goal state, if not 
+	bool tru = true;
+	vector<vector<int>> temp{
+		{1,2,3},
+		{4,5,6},
+		{7,8,0}
+	};
+
+	if (add.vect == temp) {
+		return true;
+	}
+	else {
 		return false;
 	}
 
@@ -95,8 +108,11 @@ void Tree::expand_left(Node& add) {
 	temp.paren.push_back(add.vect);
 
 	temp.dir.push_back("Move left");
-	temp.tile.push_back(misplace);
+	
 	temp.dep.push_back(depth);
+
+	check_misplace(temp);
+	temp.tile.push_back(misplace);
 
 	if (compare_goal(temp)) {
 		add_goal(temp);
@@ -122,9 +138,12 @@ void Tree::expand_up(Node& add) {
 
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
-	temp.tile.push_back(misplace);
 	temp.dir.push_back("Move up");
+	
 	temp.dep.push_back(depth);
+
+	check_misplace(temp);
+	temp.tile.push_back(misplace);
 
 	if (compare_goal(temp)) {
 		add_goal(temp);
@@ -133,7 +152,6 @@ void Tree::expand_up(Node& add) {
 	if (!isExplored(temp)) {
 		add_frontier(temp);
 	}
-
 }
 
 void Tree::expand_down(Node& add) {
@@ -151,18 +169,20 @@ void Tree::expand_down(Node& add) {
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move down");
-	temp.tile.push_back(misplace);
+	
 	temp.dep.push_back(depth);
 
+	check_misplace(temp);
+	temp.tile.push_back(misplace);
 
 	if (compare_goal(temp)) {
 		add_goal(temp);
+		
 	}
 
 	if (!isExplored(temp)) {
 		add_frontier(temp);
 	}
-
 }
 
 void Tree::expand_right(Node& add) {
@@ -180,17 +200,20 @@ void Tree::expand_right(Node& add) {
 	add.child_list.push_back(temp);
 	temp.paren.push_back(add.vect);
 	temp.dir.push_back("Move right");
-	temp.tile.push_back(misplace);
+
 	temp.dep.push_back(depth);
+
+	check_misplace(temp);
+	temp.tile.push_back(misplace);
 
 	if (compare_goal(temp)) {
 		add_goal(temp);
+		
 	}
 
 	if (!isExplored(temp)) {
 		add_frontier(temp);
 	}
-
 }
 
 void Tree::expand(Node add) {
@@ -311,7 +334,7 @@ void Tree::print_solution() {
 		temp = goal_vector.at(0);
 		for (int i = 0; i < temp.paren.size(); ++i) {
 			// keep track of depth and misplace			depth doesn't exactly work
-			cout << "The best state to expand with g(n) = " << temp.dep.at(i) << " and h(n) = " << temp.tile.at(i) << endl; 
+			cout << "The best state to expand with g(n) = " << i/*temp.dep.at(i)*/ << " and h(n) = " << temp.tile.at(i) << endl; 
 			print_vector(temp.paren.at(i));
 		}
 		print_vector(temp.vect);

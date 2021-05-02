@@ -52,6 +52,7 @@ public:
 	void trace();
 	void trace_answer(Node temp);
 	void set_parent(Node&, Node);
+	void check_misplace(Node add);
 
 
 

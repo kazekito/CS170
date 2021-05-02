@@ -41,9 +41,9 @@ int main() {
 
 	if (choice == 1) {
 		vector<vector<int>> puzzle{
-				{0,1,6},
-				{8,3,7},
-				{5,4,2}
+			{1,2,3},
+			{4,8,5},
+			{7,0,6}
 		};
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
 		temp.child_list = vector<Node>();
