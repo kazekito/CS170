@@ -1,4 +1,4 @@
-#include "ucs.h"
+#include "Etree.h"
 
 
 
@@ -14,17 +14,21 @@ void E_tree::set_root(Node a){
 	this->root = a;
 }
 
+
 void E_tree::add_frontier(Node a){
 	this->frontier.push_back(a);
 }
+
 
 void E_tree::add_explored(Node a){
 	this->explored.push_back(a);
 }
 
+
 void E_tree::add_goal(Node a){
 	this->goal_vector.push_back(a);
 }
+
 
 bool E_tree::compare_goal(Node a){
 	bool tru = true;
@@ -46,6 +50,7 @@ bool E_tree::compare_goal(Node a){
 	
 }
 
+
 bool E_tree::isExplored(Node a){
 	bool temp = true;
 	if (this->explored.empty()){
@@ -63,6 +68,7 @@ bool E_tree::isExplored(Node a){
 	return temp;
 }
 
+
 bool E_tree::isFrontier(Node a){
 	list<Node>::iterator it;
 	for (it = this->frontier.begin(); it != this->frontier.end(); ++it){
@@ -73,6 +79,7 @@ bool E_tree::isFrontier(Node a){
 	
 	return false;
 }
+
 
 Node E_tree::get_lowestcost(){
 	list<Node>::iterator it;
@@ -87,6 +94,7 @@ Node E_tree::get_lowestcost(){
 	return temp;
 }
 
+
 void E_tree::remove_frontier(Node a){
 	list<Node>::iterator it;
 	for (it = this->frontier.begin(); it != this->frontier.end(); ++it){
@@ -99,8 +107,9 @@ void E_tree::remove_frontier(Node a){
 	return;
 }
 
-void E_tree::expand_left(Node *add){
-	Node temp = *add;
+
+void E_tree::expand_left(Node add){
+	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
 	b = temp.vect.at(temp.a).at(temp.b-1); //get # for position left of blank
@@ -109,14 +118,15 @@ void E_tree::expand_left(Node *add){
 	
 	++temp.cost; //increase cost of our state.
 	temp.b = temp.b - 1; //change columns by 1 value to the left/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	
-	add->child_list.push_back(temp);
-	temp.paren.push_back(add->vect);
-	temp.parent_vector.push_back(*add);
-	temp.dir.push_back("Move left");
 	
 	H_calc(&temp);
+	
+	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move left");
+	temp.GN.push_back(add.cost);
+	temp.HN.push_back(add.Hcost);
+	temp.TN.push_back(add.Tcost);
+	
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -124,8 +134,8 @@ void E_tree::expand_left(Node *add){
 	
 }
 
-void E_tree::expand_right(Node *add){
-	Node temp = *add;
+void E_tree::expand_right(Node add){
+	Node temp = add;
 	int a;
 	int b;
 	
@@ -135,21 +145,22 @@ void E_tree::expand_right(Node *add){
 	temp.vect.at(temp.a).at(temp.b) = b;
 	++temp.cost;
 	temp.b = temp.b + 1; //change columns by 1 value to the right/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	add->child_list.push_back(temp);	//add this node to add's child list.
-	temp.paren.push_back(add->vect);
-	temp.dir.push_back("Move right");
-	temp.parent_vector.push_back(*add);
 	
 	H_calc(&temp);
+	
+	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move right");
+	temp.GN.push_back(add.cost);
+	temp.HN.push_back(add.Hcost);
+	temp.TN.push_back(add.Tcost);
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
 }
 
-void E_tree::expand_up(Node *add){
-	Node temp = *add;
+void E_tree::expand_up(Node add){
+	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
 	b = temp.vect.at(temp.a-1).at(temp.b); //get # for position above blank
@@ -158,22 +169,22 @@ void E_tree::expand_up(Node *add){
 	
 	++temp.cost; //increase cost of our state.
 	temp.a = temp.a - 1; //change columns by 1 value to the left/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	
-	add->child_list.push_back(temp);
-	temp.paren.push_back(add->vect);
-	temp.dir.push_back("Move up");
-	temp.parent_vector.push_back(*add);
 	
 	H_calc(&temp);
+	
+	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move up");
+	temp.GN.push_back(add.cost);
+	temp.HN.push_back(add.Hcost);
+	temp.TN.push_back(add.Tcost);
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
 	}
 }
 
-void E_tree::expand_down(Node *add){
-	Node temp = *add;
+void E_tree::expand_down(Node add){
+	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
 	b = temp.vect.at(temp.a+1).at(temp.b); //get # for position underneath  blank
@@ -182,13 +193,14 @@ void E_tree::expand_down(Node *add){
 	
 	++temp.cost; //increase cost of our state.
 	temp.a = temp.a + 1; //change columns by 1 value to the left/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	add->child_list.push_back(temp);
-	temp.paren.push_back(add->vect);
-	temp.dir.push_back("Move down");
-	temp.parent_vector.push_back(*add);
 	H_calc(&temp);
+	
+	temp.paren.push_back(add.vect);
+	temp.dir.push_back("Move down");
+	temp.GN.push_back(add.cost);
+	temp.HN.push_back(add.Hcost);
+	temp.TN.push_back(add.Tcost);
 
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -212,54 +224,54 @@ void E_tree::expand(Node a){
 	else if (!isExplored(a) && !compare_goal(a)){
 		if (tempa == 0 && tempb == 0){ //blank is at top left corner.
 			add_explored(a);
-			expand_right(&a);
-			expand_down(&a);
+			expand_right(a);
+			expand_down(a);
 		}
 		else if (tempa == 0 && tempb == 1){ //blank is at the top corner
 			add_explored(a);
-			expand_right(&a);
-			expand_down(&a);
-			expand_left(&a);
+			expand_right(a);
+			expand_down(a);
+			expand_left(a);
 		}
 		else if (tempa == 0 && tempb == 2){ //blank is at top right corner
 			add_explored(a);
-			expand_left(&a);
-			expand_down(&a);
+			expand_left(a);
+			expand_down(a);
 		}
 		else if (tempb == 0 && tempa  == 1){ //blank is at the left corner.
 			add_explored(a);
-			expand_right(&a);
-			expand_up(&a);
-			expand_down(&a);
+			expand_right(a);
+			expand_up(a);
+			expand_down(a);
 		}
 		else if (tempb == 0 && tempa == 2){  //blank is at the bottom left
 			add_explored(a);
-			expand_up(&a);
-			expand_right(&a);
+			expand_up(a);
+			expand_right(a);
 		}
 		else if (tempa == 2 && tempb == 1){ //blank is at the bottom corner
 			add_explored(a);
-			expand_up(&a);
-			expand_left(&a);
-			expand_right(&a);
+			expand_up(a);
+			expand_left(a);
+			expand_right(a);
 		}
 		else if (tempa == 2 & tempb == 2){ //bottom right corner.
 			add_explored(a);
-			expand_up(&a);
-			expand_left(&a);
+			expand_up(a);
+			expand_left(a);
 		}
 		else if (tempb == 2 &&  tempa == 1){ //right corner.
 			add_explored(a);
-			expand_left(&a);
-			expand_up(&a);
-			expand_down(&a);
+			expand_left(a);
+			expand_up(a);
+			expand_down(a);
 		}
 		else if (tempb == 1 && tempa == 1){
 			add_explored(a);
-			expand_left(&a);
-			expand_right(&a);
-			expand_up(&a);
-			expand_down(&a);
+			expand_left(a);
+			expand_right(a);
+			expand_up(a);
+			expand_down(a);
 		}
 	}
 	
@@ -382,14 +394,6 @@ void E_tree::H_calc(Node *a){
 }
 
 
-void E_tree::print_T(Node a){
-	printf("Total cost: %f\n",a.Tcost);
-}
-
-void E_tree::print(){
-	printf("%f\n", this->frontier.front().Tcost);
-}
-
 void E_tree::print_node(Node a){
 	for (int i = 0; i < 3; ++i){
 		cout << "{ ";
@@ -406,21 +410,14 @@ void E_tree::print_node(Node a){
 void E_tree::goal_exist(){
 	if (!this->goal_vector.empty()){
 		printf("Goal Found\n");
+		printf("\n\n***Solution***\n");
 		Node temp = this->goal_vector.at(0);
-		print_node(temp);
-	}
-}
-
-void E_tree::print_directions(){
-	Node temp;
-	
-	if (!this->goal_vector.empty()){
-		temp = goal_vector.at(0);
-		printf("\n\n\n***Solution***\n");
-		for (int i = 0; i < temp.parent_vector.size(); ++i){
-			print_node(temp.parent_vector.at(i));
+		for (int i = 0; i < temp.paren.size(); ++i){
+			print_vector(temp.paren.at(i));
+			printf("g(n): %f   h(n): %f   f(n): %f\n\n",temp.GN.at(i),temp.HN.at(i),temp.TN.at(i));
 		}
-		print_node(temp);
+		print_vector(temp.vect);
+		printf("g(n): %f   h(n): %f   f(n): %f\n\n",temp.cost,temp.Hcost,temp.Tcost);
 		
 		printf("\n\n***Directions***\n");
 		for (int j = 0; j < temp.dir.size(); ++j){
@@ -428,6 +425,7 @@ void E_tree::print_directions(){
 		}
 	}
 }
+
 
 void E_tree::print_vector(vector<vector<int>> a){
 	for (int i = 0; i < 3; ++i){
@@ -437,5 +435,8 @@ void E_tree::print_vector(vector<vector<int>> a){
 		}
 		cout << "}\n";
 	}
-	cout << endl;
+}
+
+void E_tree::print_expanded(){
+	printf("Expanded: %d nodes\n",this->explored.size());
 }

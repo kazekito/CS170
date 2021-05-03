@@ -1,40 +1,43 @@
 #include "ucs.h"
 
-Node::Node(){
-	paren = vector<vector<vector<int>>>();
-	vect = vector<vector<int>>();
-	cost = 0;
-	Hcost = 0;
-	Tcost = 0;
-	
-}
+
 Tree::Tree(){
 	this->root = Node();
 	this->goal_vector = vector<Node>();
 	this->frontier = list<Node>();
 	this->explored = vector<Node>();
+	this->answer = vector<Node>();
+	this->goal = 0;
 }
+
 void Tree::set_root(Node a){
 	this->root = a;
 }
+
 
 void Tree::add_frontier(Node add){
 	this->frontier.push_back(add);
 }
 
+
 void Tree::add_explored(Node add){
 	this->explored.push_back(add);
 }
 
+
+//Add a node to the goal vector, we use the goal vector to check if we found a goal or not.
 void Tree::add_goal(Node add){
 	this->goal_vector.push_back(add);
+	this->goal = (Node*) &add;
 }
+
 
 void Tree::remove_frontier(){
 	this->frontier.pop_front();
 }
 
 
+//check to see if a Node is equivalent to the goal state		(functional)
 bool Tree::compare_goal(Node add){	//check if our Node add is the same as our goal state, if not 
 	bool tru = true;
 	vector<vector<int>> temp{
@@ -54,6 +57,8 @@ bool Tree::compare_goal(Node add){	//check if our Node add is the same as our go
 	return tru;
 }
 
+
+//Check whether a node is in the frontier set or not		(functional)
 bool Tree::isFrontier(Node add){
 	list<Node>::iterator it;
 	for (it = this->frontier.begin(); it != this->frontier.end(); ++it){
@@ -65,7 +70,9 @@ bool Tree::isFrontier(Node add){
 	return false;
 }
 
-bool Tree::isExplored(Node add){ //execute compare add through our explored set. the logic is that if it is true, then tru = true. if it doesn't match, tru = false for the rest of the comparison. 
+
+//Check whether a node is explored or not		(functional)
+bool Tree::isExplored(Node add){ 
 	bool temp = true;
 	if (this->explored.empty()){
 		temp = false;
@@ -82,9 +89,13 @@ bool Tree::isExplored(Node add){ //execute compare add through our explored set.
 	return temp;
 }
 
-void Tree::expand_left(Node &add){
+
+//Expand left and update all neccessary information 		(functional)
+void Tree::expand_left(Node add){
 	Node temp = add;
 	int a; int b; 
+	
+	
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
 	b = temp.vect.at(temp.a).at(temp.b-1); //get # for position left of blank
 	temp.vect.at(temp.a).at(temp.b-1) = a; //swap blank and # to the left of blank.
@@ -92,14 +103,13 @@ void Tree::expand_left(Node &add){
 	
 	++temp.cost; //increase cost of our state.
 	temp.b = temp.b - 1; //change columns by 1 value to the left/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	add.child_list.push_back(temp);
+	//add parent vector
 	temp.paren.push_back(add.vect);
-	temp.parent_vector.push_back(add);
-	
+	//add direction
 	temp.dir.push_back("Move left");
-	
+	//add g(n)
+	temp.GN.push_back(add.cost);
 
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -107,7 +117,9 @@ void Tree::expand_left(Node &add){
 	
 }
 
-void Tree::expand_up(Node &add){
+
+//Expand up and update all neccessary information 		(functional)
+void Tree::expand_up(Node add){
 	Node temp = add;
 	int a; int b; 
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
@@ -117,14 +129,13 @@ void Tree::expand_up(Node &add){
 	
 	++temp.cost; //increase cost of our state.
 	temp.a = temp.a - 1; //change columns by 1 value to the left/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	add.child_list.push_back(temp);
+	//add parent vector
 	temp.paren.push_back(add.vect);
+	//add direction
 	temp.dir.push_back("Move up");
-	temp.parent_vector.push_back(add);
-	
-
+	//add g(n)
+	temp.GN.push_back(add.cost);
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -132,9 +143,13 @@ void Tree::expand_up(Node &add){
 	
 }
 
-void Tree::expand_down(Node &add){
+
+//Expand down and update all neccessary information 		(functional)
+void Tree::expand_down(Node add){
 	Node temp = add;
 	int a; int b; 
+	
+	
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
 	b = temp.vect.at(temp.a+1).at(temp.b); //get # for position underneath  blank
 	temp.vect.at(temp.a+1).at(temp.b) = a; //swap blank and # to the underneath blank.
@@ -142,13 +157,15 @@ void Tree::expand_down(Node &add){
 	
 	++temp.cost; //increase cost of our state.
 	temp.a = temp.a + 1; //change columns by 1 value to the left/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	add.child_list.push_back(temp);
+
+	//add parent vector
 	temp.paren.push_back(add.vect);
+	//add direction
 	temp.dir.push_back("Move down");
-	temp.parent_vector.push_back(add);
-	
+	//add g(n)
+	temp.GN.push_back(add.cost);
+
 
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -156,9 +173,13 @@ void Tree::expand_down(Node &add){
 	
 }
 
-void Tree::expand_right(Node &add){
+
+//Expand right and update all neccessary information 		(functional)
+void Tree::expand_right(Node add){
 	Node temp = add;
 	int a; int b; 
+	
+	
 	a = temp.vect.at(temp.a).at(temp.b);  //get # for blank "b"
 	b = temp.vect.at(temp.a).at(temp.b+1); //get # for position right of blank
 	temp.vect.at(temp.a).at(temp.b+1) = a; //swap blank and # to the right of blank.
@@ -166,13 +187,13 @@ void Tree::expand_right(Node &add){
 	
 	temp.cost = temp.cost + 1; //increase cost of our state.
 	temp.b = temp.b + 1; //change columns by 1 value to the right/
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
 	
-	add.child_list.push_back(temp);
+	//add parent vector
 	temp.paren.push_back(add.vect);
+	//add direction
 	temp.dir.push_back("Move right");
-	temp.parent_vector.push_back(add);
-	
+	//add g(n)
+	temp.GN.push_back(add.cost);
 	
 	if (!isExplored(temp) && !isFrontier(temp)){
 		add_frontier(temp);
@@ -180,16 +201,19 @@ void Tree::expand_right(Node &add){
 	
 }
 
+
+//Expand node, subset of expand_frontier(), helps determine which path a state should expand based on the position of the white tile.		(functional)
 void Tree::expand(Node add){
 	int a = add.a;
 	int b = add.b;
+	
 	if (compare_goal(add)){
 		add_goal(add);
 		if (this->frontier.size() == 1){
-			this->frontier.front() = Node();
+			//this->frontier.front() = Node();
 		}
 		else {
-			this->frontier.pop_front();
+			//this->frontier.pop_front();
 		}
 		return;
 	}
@@ -246,23 +270,25 @@ void Tree::expand(Node add){
 			expand_down(add);
 		}
 	}
-	
-	this->frontier.pop_front();
 }
 
+
+//Caller to expand nodes, while solution is not found, expand.		(functional)
 void Tree::expand_frontier(){
 	while(this->goal_vector.empty()){
 		print_frontier_front();
-		//print_frontier_size();
-		//print_expanded_size();
 		print_GH(this->frontier.front());
+		print_expanded_size();
 		expand(this->frontier.front());
+		this->frontier.pop_front();
 	}
 }
 
 
 //*******************************************************testing purposes ***********************************************************************************************************************
 
+
+//Print the node in front of the frontier		(functional)
 void Tree::print_frontier_front(){
 	if (!this->frontier.empty()){
 		for (int i = 0; i < 3; ++i){
@@ -277,6 +303,7 @@ void Tree::print_frontier_front(){
 	cout << endl;
 }
 
+//Check whether the goal exist or not		(functional)
 void Tree::GoalExist(){
 	if (this->goal_vector.empty()){
 		cout << "Goal state does not exist" << endl;
@@ -286,42 +313,30 @@ void Tree::GoalExist(){
 	}
 }
 
-void Tree::print_goal_cost(){
-	if (!this->goal_vector.empty()){
-		printf("Goal cost %d\n",this->goal_vector.at(0).cost);
-	}
-}
 
-
+//Print the state movements
+//Print the directions to solve the puzzle		(functional)
 void Tree::print_solution(){
-	cout << "Solution: " << endl;
 	Node temp;
-	/*
 	if (!this->goal_vector.empty()){
-		temp = goal_vector.at(0);
-		for (int i = 0 ; i < temp.paren.size(); ++i){
-			print_vector(temp.paren.at(i));
-		}
-		print_vector(temp.vect);
-		cout << "Directions\n";
-		print_vector(this->root.vect);
-		for (int j = 0; j < temp.dir.size(); ++j){
-			cout << temp.dir.at(j) << endl;
-		}
-	}
-	*/
-	if (!this->goal_vector.empty()){
-		temp = goal_vector.at(0);
 		printf("***Solution***\n");
-		for (int i = 0; i < temp.parent_vector.size(); ++i){
-			print_vector(temp.parent_vector.at(i).vect);
-			printf("g(n): %d	h(n): %d\n\n",static_cast<int>(temp.parent_vector.at(i).cost),0);
+		temp = goal_vector.at(0);
+		for (int i = 0; i < temp.paren.size(); ++i){
+			for (int j = 0; j < 3; ++j){
+				printf("{");
+				for (int k = 0; k < 3; ++k){
+					printf("%d, ",temp.paren.at(i).at(j).at(k));
+				}
+				printf("}\n");
+			}
+			printf("g(n): %d    h(n): %d\n\n", static_cast<int>(temp.GN.at(i)),0);
 		}
 		print_vector(temp.vect);
-		printf("g(n): %d	h(n): %d\n\n",static_cast<int>(temp.cost),0);
+		print_GH(temp);
+		
 		printf("***Directions***\n");
-		for (int j = 0; j < temp.dir.size(); ++j){
-			cout << temp.dir.at(j) << endl;
+		for (int l = 0; l < temp.dir.size(); ++l){
+			cout << temp.dir.at(l) << endl;
 		}
 	}
 	
@@ -338,24 +353,29 @@ void Tree::print_vector(vector<vector<int>> add){
 	}
 }
 
-void Tree::print_frontier_size(){
-	if (!this->frontier.empty()){
-		cout << "Frontier: " << this->frontier.size() << " ";
-	}
-}
 
+//print explored set's size		(functional)
 void Tree::print_expanded_size(){
 	if (!this->explored.empty()){
 		cout << "Expanded: " << this->explored.size() << " \n";
 	}
 }
 
-void Tree::print_cost(Node add){
-	printf("Expanding depth %d...\n",static_cast<int>(add.cost));
-}
-
+//print g(n) and h(n) of a node.		(functional)
 void Tree::print_GH(Node a){
-	printf("g(n): %d	h(n): %d\n",static_cast<int>(a.cost),0);
+	printf("g(n): %d    h(n): %d\n\n",static_cast<int>(a.cost),0);
 }
 
+//given a node, print the vector of the node and it's g(n) and h(n) component.		(functional)
+void Tree::print_node(Node a){
+	for (int i = 0; i < 3; ++i){
+		printf("{ ");
+		for (int j = 0; j < 3; ++j){
+			printf("%d, ",a.vect.at(i).at(j));
+		}
+		printf("}\n");
+	}
+	printf("g(n): %d	h(n): %d\n",(int) a.cost, 0);
+	cout << endl;
+}
 

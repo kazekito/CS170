@@ -50,14 +50,12 @@ int main() {
 
     if (choice == 1) {
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
-		temp.child_list = vector<Node>();
 		temp.a = 2;
 		temp.b = 1;
 		temp.cost = 0.0;
 		temp.Hcost = 0.0;
 		temp.Tcost = 0.0;
 		temp.paren = vector<vector<vector<int>>>();
-		temp.parent_vector = vector<Node>();
     }
 	
     else if (choice != 1){
@@ -74,7 +72,6 @@ int main() {
 			}
 		}
 		temp.vect = puzzle;
-		temp.child_list = vector<Node>();
 		temp.cost = 0;
 		temp.paren = vector<vector<vector<int>>>();
 	
@@ -94,6 +91,7 @@ int main() {
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
 		temp_tree->print_solution();
+		temp_tree->print_expanded_size();
 		
     }
     else if (algorithm == 2) {
@@ -104,7 +102,7 @@ int main() {
 	   temp_etree->H_calc(&temp);
 	   temp_etree->add_frontier(temp);
 	   temp_etree->expand_frontier();
-	   temp_etree->print_directions();
+	   temp_etree->print_expanded();
     }
 
 	return 0;
