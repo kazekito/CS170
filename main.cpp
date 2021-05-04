@@ -4,29 +4,40 @@
 	Description:
 	I acknowledge all content is our own original work
 */
-//#include "ucs.h"
-//#include "ucs.cpp"
-#include "misplaced.h"
+
 #include <iostream>
 #include <list>
 #include <iterator>
 #include <vector>
-using namespace std;
+#include <string>
+#include <algorithm> 
+#include "ucs.h"
+#include "Etree.h"
+//#include "ucs.cpp"
+//#include "Etree.cpp"
+#include "misplace.h"
+//#include "node1.h"
 
+using namespace std;
 
 int main() {
 
+	//string line1, line2, line3;
+	//char* char1, * char2, * char3, * char4, * char5, * char6, * char7, * char8, * char9;
 	int choice, algorithm, val;
-	vector<vector<int>> puzzle;/* {
-		{8,0,2},
-		{4,3,5},
-		{7,1,6}
-	};*/
+	vector<vector<int>> puzzle{
+		{1,2,3},
+		{4,8,5},
+		{7,0,6}
+	};
 
+	misplace* misplace_tree;
+	misplace_tree = new misplace();
 
-
+	E_tree* temp_etree;
 	Node temp;
 	Tree* temp_tree;
+	temp_etree = new E_tree();
 	temp_tree = new Tree();
 
 	cout << "Welcome to Bao Lam Le and Jessie Lu 8 puzzle solver.\n"; // replace names with student ID later
@@ -40,38 +51,33 @@ int main() {
 	*/
 
 	if (choice == 1) {
-		vector<vector<int>> puzzle{
-			{1,2,3},
-			{4,8,5},
-			{7,0,6}
-		};
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
-		temp.child_list = vector<Node>();
-		temp.a = 0;
-		temp.b = 0;
-		temp.cost = 0;
+		temp.a = 2;
+		temp.b = 1;
+		temp.cost = 0.0;
+		temp.Hcost = 0.0;
+		temp.Tcost = 0.0;
 		temp.paren = vector<vector<vector<int>>>();
 	}
 
-	else {
-		// enter own 8 puzzle
+	else if (choice != 1) {
 		for (int i = 0; i < 3; i++) { // row
-			vector<int> tmpPuz;
+			vector<int> tmpPuz = vector<int>();
 
 			for (int j = 0; j < 3; j++) { // column
 				cin >> val;
+				puzzle.at(i).at(j) = val;
 				if (val == 0) {
 					temp.a = i;
 					temp.b = j;
 				}
-				tmpPuz.push_back(val); // 1D puzzle
 			}
-			puzzle.push_back(tmpPuz); // creates 2D puzzle
 		}
 		temp.vect = puzzle;
-		temp.child_list = vector<Node>();
 		temp.cost = 0;
 		temp.paren = vector<vector<vector<int>>>();
+
+
 	}
 
 	cout << "Enter your choice of algorithm\n";
@@ -86,21 +92,26 @@ int main() {
 		temp_tree->add_frontier(temp);
 		temp_tree->expand_frontier();
 		temp_tree->GoalExist();
-		temp_tree->print_goal_cost();
 		temp_tree->print_solution();
+		temp_tree->print_expanded_size();
 
 	}
 	else if (algorithm == 2) {
 		// A* with Misplaced tile
-		temp_tree->set_root(temp);				//set root node to the tree.
-		temp_tree->add_frontier(temp);
-		temp_tree->expand_frontier();
-		temp_tree->GoalExist();
-		temp_tree->print_goal_cost();
-		temp_tree->print_solution();
+		misplace_tree->set_mroot(temp);
+		misplace_tree->calc_misplace(&temp);
+		misplace_tree->add_mfrontier(temp);
+		misplace_tree->expand_mfrontier();
+		misplace_tree->print_directions();
+		misplace_tree->print_mexpanded();
+
 	}
-	else {
-		// A* with Eucledian distance
+	else if (algorithm == 3) {
+		temp_etree->set_root(temp);
+		temp_etree->H_calc(&temp);
+		temp_etree->add_frontier(temp);
+		temp_etree->expand_frontier();
+		temp_etree->print_expanded();
 	}
 
 	return 0;
