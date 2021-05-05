@@ -14,6 +14,7 @@ class Tree{
 	vector<Node> explored; //add elements but don't remove them.
 	vector<Node> answer;
 	Node *goal;
+	int frontier_size;
 	public:
 	Tree();
 	void set_root(Node root);//		(functional)
@@ -46,6 +47,7 @@ class Tree{
 	void print_vector(vector<vector<int>>);
 	void print_expanded_size();
 	void print_node(Node);  	//print entire state along with g(n), h(n) and total expanded.
+	void frontier_update();
 };
 
 

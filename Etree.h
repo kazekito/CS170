@@ -11,6 +11,7 @@ class E_tree{
 	list<Node> frontier;
 	vector<Node> explored;
 	vector<vector<vector<int>>> answer;
+	int frontier_size;
 	public:
 	E_tree();
 	void H_calc(Node *);					//success
@@ -38,6 +39,7 @@ class E_tree{
 	void goal_exist();	//print solution
 	void print_vector(vector<vector<int>>);
 	void print_expanded();
+	void frontier_update();
 };
 
 
