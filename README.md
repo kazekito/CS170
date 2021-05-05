@@ -12,4 +12,9 @@ Uniform Cost Search chooses the cheapest node, g(n), to expand and h(n) is hardc
 A* with the Misplaced Tile heuristic will also choose the cheapest node, g(n), to expand. However, g(n) in this case would be the number of misplaced tiles in the puzzle. 
 A* with the Euclidean Distance heuristic will choose the node that also has the cheapest node. The g(n) in this heuristic would be found by using the pythagorean theorem.
 
-## 
+## Start the program
+Using the terminal you would first need to type in `g++ -o <program name> main.cpp`
+Then type in the command `./program_name.exe`
+Note: Program name is not what you need to type in. You must type in the program name that you have named it
+
+## Using the program
