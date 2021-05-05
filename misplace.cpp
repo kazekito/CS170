@@ -78,8 +78,8 @@ void misplace::remove_mfrontier(Node add) {
 	return;
 }
 
-void misplace::mexpand_left(Node* add) {
-	Node temp = *add;
+void misplace::mexpand_left(Node add) {
+	Node temp = add;
 	int a;
 	int b;
 
@@ -91,11 +91,11 @@ void misplace::mexpand_left(Node* add) {
 	temp.b = temp.b - 1; //change columns by 1 value to the left/
 
 	++temp.cost;
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	add->child_list.push_back(temp);
+	//temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	//add.child_list.push_back(temp);
 
-	temp.paren.push_back(add->vect);
-	temp.parent_vector.push_back(*add);
+	//temp.paren.push_back(add.vect);
+	//temp.parent_vector.push_back(add);
 
 	temp.dir.push_back("Move left");
 	temp.depth.push_back(temp.cost);
@@ -107,8 +107,8 @@ void misplace::mexpand_left(Node* add) {
 
 }
 
-void misplace::mexpand_right(Node* add) {
-	Node temp = *add;
+void misplace::mexpand_right(Node add) {
+	Node temp = add;
 	int a;
 	int b;
 
@@ -120,11 +120,11 @@ void misplace::mexpand_right(Node* add) {
 	temp.b = temp.b + 1; //change columns by 1 value to the right
 
 	++temp.cost;
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	add->child_list.push_back(temp);	//add this node to add's child list.
+	//temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	//add.child_list.push_back(temp);	//add this node to add's child list.
 
-	temp.paren.push_back(add->vect);
-	temp.parent_vector.push_back(*add);
+	//temp.paren.push_back(add.vect);
+	//temp.parent_vector.push_back(add);
 
 	temp.dir.push_back("Move right");
 	temp.depth.push_back(temp.cost);
@@ -135,8 +135,8 @@ void misplace::mexpand_right(Node* add) {
 	}
 }
 
-void misplace::mexpand_up(Node* add) {
-	Node temp = *add;
+void misplace::mexpand_up(Node add) {
+	Node temp = add;
 	int a;
 	int b;
 
@@ -148,11 +148,11 @@ void misplace::mexpand_up(Node* add) {
 	temp.a = temp.a - 1; //change columns by 1 value to the left
 
 	++temp.cost;
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	add->child_list.push_back(temp);
+	//temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	//add.child_list.push_back(temp);
 
-	temp.paren.push_back(add->vect);
-	temp.parent_vector.push_back(*add);
+	//temp.paren.push_back(add.vect);
+	//temp.parent_vector.push_back(add);
 
 	temp.dir.push_back("Move up");
 	temp.depth.push_back(temp.cost);
@@ -163,8 +163,8 @@ void misplace::mexpand_up(Node* add) {
 	}
 }
 
-void misplace::mexpand_down(Node* add) {
-	Node temp = *add;
+void misplace::mexpand_down(Node add) {
+	Node temp = add;
 	int a;
 	int b;
 
@@ -176,11 +176,11 @@ void misplace::mexpand_down(Node* add) {
 	temp.a = temp.a + 1; //change columns by 1 value to the left
 
 	++temp.cost;
-	temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
-	add->child_list.push_back(temp);
+	//temp.child_list = vector<Node>();  //initalize an empty child list for our newly expanded set.
+	//add.child_list.push_back(temp);
 
-	temp.paren.push_back(add->vect);
-	temp.parent_vector.push_back(*add);
+	//temp.paren.push_back(add.vect);
+	//temp.parent_vector.push_back(add);
 
 	temp.dir.push_back("Move down");
 	temp.depth.push_back(temp.cost);
@@ -206,54 +206,54 @@ void misplace::mexpand(Node a) {
 	else if (!ismExplored(a) && !mcompare_goal(a)) {
 		if (tempa == 0 && tempb == 0) { //blank is at top left corner.
 			add_mexplored(a);
-			mexpand_right(&a);
-			mexpand_down(&a);
+			mexpand_right(a);
+			mexpand_down(a);
 		}
 		else if (tempa == 0 && tempb == 1) { //blank is at the top corner
 			add_mexplored(a);
-			mexpand_right(&a);
-			mexpand_down(&a);
-			mexpand_left(&a);
+			mexpand_right(a);
+			mexpand_down(a);
+			mexpand_left(a);
 		}
 		else if (tempa == 0 && tempb == 2) { //blank is at top right corner
 			add_mexplored(a);
-			mexpand_left(&a);
-			mexpand_down(&a);
+			mexpand_left(a);
+			mexpand_down(a);
 		}
 		else if (tempb == 0 && tempa == 1) { //blank is at the left corner.
 			add_mexplored(a);
-			mexpand_right(&a);
-			mexpand_up(&a);
-			mexpand_down(&a);
+			mexpand_right(a);
+			mexpand_up(a);
+			mexpand_down(a);
 		}
 		else if (tempb == 0 && tempa == 2) {  //blank is at the bottom left
 			add_mexplored(a);
-			mexpand_up(&a);
-			mexpand_right(&a);
+			mexpand_up(a);
+			mexpand_right(a);
 		}
 		else if (tempa == 2 && tempb == 1) { //blank is at the bottom corner
 			add_mexplored(a);
-			mexpand_up(&a);
-			mexpand_left(&a);
-			mexpand_right(&a);
+			mexpand_up(a);
+			mexpand_left(a);
+			mexpand_right(a);
 		}
 		else if (tempa == 2 && tempb == 2) { //bottom right corner.
 			add_mexplored(a);
-			mexpand_up(&a);
-			mexpand_left(&a);
+			mexpand_up(a);
+			mexpand_left(a);
 		}
 		else if (tempb == 2 && tempa == 1) { //right corner.
 			add_mexplored(a);
-			mexpand_left(&a);
-			mexpand_up(&a);
-			mexpand_down(&a);
+			mexpand_left(a);
+			mexpand_up(a);
+			mexpand_down(a);
 		}
 		else if (tempb == 1 && tempa == 1) {
 			add_mexplored(a);
-			mexpand_left(&a);
-			mexpand_right(&a);
-			mexpand_up(&a);
-			mexpand_down(&a);
+			mexpand_left(a);
+			mexpand_right(a);
+			mexpand_up(a);
+			mexpand_down(a);
 		}
 	}
 
@@ -334,25 +334,17 @@ void misplace::calc_misplace(Node* a) {
 
 void misplace::goal_exist() {
 	if (!this->goal_vector.empty()) {
-		cout << "Goal!" << endl;
+		cout << "Goal!\n" << endl;
+		cout << "\n Solution \n";
 		Node temp = this->goal_vector.at(0);
-		print_node(temp);
-	}
-}
-
-void misplace::print_directions() {
-	Node temp;
-
-	if (!this->goal_vector.empty()) {
-		temp = goal_vector.at(0);
-		cout << endl << endl << "***Solution***" << endl;
-
-		for (int i = 0; i < temp.parent_vector.size(); ++i) {
-			print_node(temp.parent_vector.at(i));
+		for (int i = 0; i < temp.paren.size(); ++i) {
+			print_vector(temp.paren.at(i));
+			cout << "g(n): " << temp.GN.at(i) << "\t h(n): " << temp.HN.at(i) << "\t f(n): " << temp.TN.at(i);
 		}
-		print_node(temp);
+		print_vector(temp.vect);
+		cout << "g(n): " << temp.cost << "\t h(n): " << temp.Hcost << "\t f(n): " << temp.Tcost;
 
-		cout << endl << "***Directions***" << endl;
+		cout << "\n Directions \n";
 		for (int j = 0; j < temp.dir.size(); ++j) {
 			cout << temp.dir.at(j) << endl;
 		}
@@ -370,13 +362,6 @@ void misplace::print_vector(vector<vector<int>> a) {
 	cout << endl;
 }
 
-void misplace::print_T(Node a) {
-	cout << "Total cost: " << a.Tcost << endl;;
-}
-
-void misplace::print() {
-	cout << this->frontier.front().Tcost << endl;
-}
 
 void misplace::print_node(Node a) {
 	for (int i = 0; i < 3; ++i) {
