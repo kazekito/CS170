@@ -29,3 +29,5 @@ If you typed in 1. You should get the following message.
 If you typed in 2. You should get the following message and type in your puzzle following the same outline as below.
 ![Option 2](https://cdn.discordapp.com/attachments/830297455660236814/839443671015620610/unknown.png)
 
+Now it is time to choose your algorithm. As you can see from the picture above when you type in option 1. When you hit enter after choosing your algorithm the code should start running to find the solution. All that's left is to wait for the end. If there is a solution and the code is able to find it then there should be an output that displays the solution. 
+![Solution](https://cdn.discordapp.com/attachments/830297455660236814/839445874932842546/unknown.png)
