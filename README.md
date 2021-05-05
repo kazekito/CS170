@@ -18,5 +18,13 @@ Then type in the command `./program_name.exe`
 Note: Program name is not what you need to type in. You must type in the program name that you have named it
 
 ## Using the program
-Once the terminal is opened you will see the starting message 
+Once the terminal is opened you will see the starting message. 
 ![Begin Program](https://cdn.discordapp.com/attachments/830297455660236814/839440512103481385/unknown.png)
+
+Follow the instructions and type 1 for the default puzzle or 2 to enter your own. Then hit enter. Depending on what choice you enter different options should pop up.
+
+If you typed in 1. You should get the following message.
+![Option 1](https://cdn.discordapp.com/attachments/830297455660236814/839442308268949564/unknown.png)
+
+If you typed in 2. You should get the following message.
+![Option 2](https://cdn.discordapp.com/attachments/830297455660236814/839441588857733141/unknown.png)
