@@ -18,3 +18,5 @@ Then type in the command `./program_name.exe`
 Note: Program name is not what you need to type in. You must type in the program name that you have named it
 
 ## Using the program
+Once the terminal is opened you will see the starting message 
+![Begin Program](https://cdn.discordapp.com/attachments/830297455660236814/839440512103481385/unknown.png)
