@@ -19,14 +19,17 @@ Note: Program name is not what you need to type in. You must type in the program
 
 ## Using the program
 Once the terminal is opened you will see the starting message. 
+
 ![Begin Program](https://cdn.discordapp.com/attachments/830297455660236814/839440512103481385/unknown.png)
 
 Follow the instructions and type 1 for the default puzzle or 2 to enter your own. Then hit enter. Depending on what choice you enter different options should pop up.
 
 If you typed in 1. You should get the following message.
+
 ![Option 1](https://cdn.discordapp.com/attachments/830297455660236814/839442308268949564/unknown.png)
 
 If you typed in 2. You should get the following message and type in your puzzle following the same outline as below.
+
 ![Option 2](https://cdn.discordapp.com/attachments/830297455660236814/839443671015620610/unknown.png)
 
 Now it is time to choose your algorithm. As you can see from the picture above when you type in option 1. When you hit enter after choosing your algorithm the code should start running to find the solution. All that's left is to wait for the end. If there is a solution and the code is able to find it then there should be an output that displays the solution. 
