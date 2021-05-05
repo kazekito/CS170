@@ -26,6 +26,6 @@ Follow the instructions and type 1 for the default puzzle or 2 to enter your own
 If you typed in 1. You should get the following message.
 ![Option 1](https://cdn.discordapp.com/attachments/830297455660236814/839442308268949564/unknown.png)
 
-If you typed in 2. You should get the following message.
-![Option 2](https://cdn.discordapp.com/attachments/830297455660236814/839441588857733141/unknown.png)
+If you typed in 2. You should get the following message and type in your puzzle following the same outline as below.
+![Option 2](https://cdn.discordapp.com/attachments/830297455660236814/839443671015620610/unknown.png)
 
