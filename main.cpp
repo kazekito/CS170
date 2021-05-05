@@ -43,12 +43,7 @@ int main() {
 	cout << "Welcome to Bao Lam Le and Jessie Lu 8 puzzle solver.\n"; // replace names with student ID later
 	cout << "Type \"1\" to use a default puzzle space, or \"2\" to enter your own puzzle. ";
 	cin >> choice;
-	/*
-	cout << "Enter your puzzle, use a zero to represent the blank\n";
-	cout << "Enter the first row, use space or tabs between numbers\n";
-	cout << "Enter the second row, use space or tabs between numbers\n";
-	cout << "Enter the third row, use space or tabs between numbers\n\n";
-	*/
+	cout << endl;
 
 	if (choice == 1) {
 		temp.vect = puzzle;			//initializing root node. --> this is representative of the root node.
@@ -61,7 +56,12 @@ int main() {
 	}
 
 	else if (choice != 1) {
+		cout << "Enter your puzzle, use a zero to represent the blank\n";
+		cout << "Enter the first row, use space between numbers\n";
+		cout << "Enter the second row, use space between numbers\n";
+		cout << "Enter the third row, use space between numbers\n";
 		for (int i = 0; i < 3; i++) { // row
+			cout << "Row " << (i + 1) << ":\t";
 			vector<int> tmpPuz = vector<int>();
 
 			for (int j = 0; j < 3; j++) { // column
@@ -80,7 +80,7 @@ int main() {
 
 	}
 
-	cout << "Enter your choice of algorithm\n";
+	cout << "\nEnter your choice of algorithm\n";
 	cout << "1. Uniform Cost Search\n";
 	cout << "2. A* with the Misplaced Tile heuristic\n";
 	cout << "3. A* with the Eucledian distance heuristic\n";
@@ -102,8 +102,8 @@ int main() {
 		misplace_tree->calc_misplace(&temp);
 		misplace_tree->add_mfrontier(temp);
 		misplace_tree->expand_mfrontier();
-		misplace_tree->print_directions();
 		misplace_tree->print_mexpanded();
+		misplace_tree->print_mfrontier();
 
 	}
 	else if (algorithm == 3) {

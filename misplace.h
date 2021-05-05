@@ -27,10 +27,10 @@ public:
 	bool mcompare_goal(Node);
 	bool ismFrontier(Node);
 	void mexpand(Node);
-	void mexpand_left(Node*);
-	void mexpand_right(Node*);
-	void mexpand_up(Node*);
-	void mexpand_down(Node*);
+	void mexpand_left(Node);
+	void mexpand_right(Node);
+	void mexpand_up(Node);
+	void mexpand_down(Node);
 	Node get_mlowestcost();
 	void remove_mfrontier(Node);
 	void calc_misplace(Node*);
@@ -38,13 +38,11 @@ public:
 	bool mposition_checker(double, double, double);
 
 	//Testing functions//
-	void print_T(Node);
-	void print();
 	void print_node(Node);
 	void goal_exist();
-	void print_directions();
 	void print_vector(vector<vector<int>>);
 	void print_mexpanded();
+	void print_mfrontier();
 };
 
 #endif
