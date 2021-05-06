@@ -33,8 +33,6 @@ public:
 
 	void print_GH(Node); //		(functional)
 	void expand_frontier();//		(functional)
-	void trace();
-	void trace_answer(Node temp);
 	bool isFrontier(Node);
 
 
