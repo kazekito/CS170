@@ -16,14 +16,11 @@
 //#include "ucs.cpp"
 //#include "Etree.cpp"
 #include "misplace.h"
-//#include "node1.h"
 
 using namespace std;
 
 int main() {
 
-	//string line1, line2, line3;
-	//char* char1, * char2, * char3, * char4, * char5, * char6, * char7, * char8, * char9;
 	int choice, algorithm, val;
 	vector<vector<int>> puzzle{
 		{1,2,3},
