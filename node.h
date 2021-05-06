@@ -24,8 +24,6 @@ struct Node {
 		TN = vector<double>();
 	}
 
-	vector<Node> child_list;
-	vector<Node> parent_vector;
 	vector<int> depth;
 	vector<vector<int>> vect; //current state
 	int a;  //position of the row
