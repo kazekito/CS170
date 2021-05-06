@@ -265,8 +265,16 @@ void misplace::expand_mfrontier() {
 
 		print_node(get_mlowestcost());
 		mexpand(get_mlowestcost());
-		goal_exist();
+		print_msize();
+		//goal_exist();
 	}
+}
+
+void misplace::print_msize() {
+	if (!this->explored.empty()) {
+		cout << "Expanded: " << this->explored.size() << " \n";
+	}
+	cout << "Queue size: " << this->frontier.size() << endl;
 }
 
 Node misplace::get_mlowestcost() {
@@ -356,7 +364,7 @@ void misplace::print_vector(vector<vector<int>> a) {
 	for (int i = 0; i < 3; i++) {
 		cout << "{ ";
 		for (int j = 0; j < 3; j++) {
-			cout << a.at(i).at(j);
+			cout << a.at(i).at(j) << ", ";
 		}
 		cout << "}\n";
 	}

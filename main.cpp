@@ -59,7 +59,7 @@ int main() {
 		cout << "Enter your puzzle, use a zero to represent the blank\n";
 		cout << "Enter the first row, use space between numbers\n";
 		cout << "Enter the second row, use space between numbers\n";
-		cout << "Enter the third row, use space between numbers\n";
+		cout << "Enter the third row, use space between numbers\n\n";
 		for (int i = 0; i < 3; i++) { // row
 			cout << "Row " << (i + 1) << ":\t";
 			vector<int> tmpPuz = vector<int>();
@@ -102,6 +102,7 @@ int main() {
 		misplace_tree->calc_misplace(&temp);
 		misplace_tree->add_mfrontier(temp);
 		misplace_tree->expand_mfrontier();
+		misplace_tree->goal_exist();
 		misplace_tree->print_mexpanded();
 		misplace_tree->print_mfrontier();
 
