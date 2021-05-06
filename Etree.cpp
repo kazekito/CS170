@@ -1,11 +1,13 @@
 #include "Etree.h"
 
 
+
 E_tree::E_tree() {
 	this->root = Node();
 	this->goal_vector = vector<Node>();
 	this->frontier = list<Node>();
 	this->explored = vector<Node>();
+	this->frontier_size = 0;
 }
 
 
@@ -279,6 +281,7 @@ void E_tree::expand(Node a) {
 
 void E_tree::expand_frontier() {
 	while (this->goal_vector.empty()) {
+		frontier_update();
 		print_node(get_lowestcost());
 		expand(get_lowestcost());
 		goal_exist();
@@ -438,4 +441,11 @@ void E_tree::print_vector(vector<vector<int>> a) {
 
 void E_tree::print_expanded() {
 	printf("Expanded: %d nodes\n", this->explored.size());
+	printf("Maximum queue size: %d nodes\n", this->frontier_size);
+}
+
+void E_tree::frontier_update() {
+	if (this->frontier_size < frontier.size()) {
+		this->frontier_size = frontier.size();
+	}
 }
