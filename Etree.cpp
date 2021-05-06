@@ -1,7 +1,5 @@
 #include "Etree.h"
 
-
-
 E_tree::E_tree() {
 	this->root = Node();
 	this->goal_vector = vector<Node>();

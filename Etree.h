@@ -34,7 +34,6 @@ public:
 	double position_diff(double, double, double);	//success
 
 	//Testing functions//
-	void print_T(Node);
 	void print_node(Node);
 	void goal_exist();	//print solution
 	void print_vector(vector<vector<int>>);
