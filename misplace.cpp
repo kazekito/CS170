@@ -265,16 +265,8 @@ void misplace::expand_mfrontier() {
 
 		print_node(get_mlowestcost());
 		mexpand(get_mlowestcost());
-		print_msize();
-		//goal_exist();
+		goal_exist();
 	}
-}
-
-void misplace::print_msize() {
-	if (!this->explored.empty()) {
-		cout << "Expanded: " << this->explored.size() << " \n";
-	}
-	cout << "Queue size: " << this->frontier.size() << endl;
 }
 
 Node misplace::get_mlowestcost() {

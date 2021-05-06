@@ -43,7 +43,6 @@ public:
 	void print_vector(vector<vector<int>>);
 	void print_mexpanded();
 	void print_mfrontier();
-	void print_msize();
 };
 
 #endif
