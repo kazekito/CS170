@@ -1,21 +1,15 @@
 #ifndef NODE_H
 #define NODE_H
 
-//#include "node.h"
-//#include "node.cpp"
 #include <iostream>
 #include <vector>
 #include <list>
 #include <iterator>
 #include <cstddef>
 #include <stack>
-//#include "math.h"
-//#include "stdlib.h"
 #include <set>
 
 using namespace std;
-
-struct Node;
 
 struct Node {
 	Node() {
@@ -47,6 +41,5 @@ struct Node {
 	vector<double> HN;
 	vector<double> TN;
 };
-
 
 #endif

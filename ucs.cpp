@@ -1,5 +1,6 @@
 #include "ucs.h"
 
+
 Tree::Tree() {
 	this->root = Node();
 	this->goal_vector = vector<Node>();
@@ -7,6 +8,7 @@ Tree::Tree() {
 	this->explored = vector<Node>();
 	this->answer = vector<Node>();
 	this->goal = 0;
+	this->frontier_size = 0;
 }
 
 void Tree::set_root(Node a) {
@@ -275,6 +277,7 @@ void Tree::expand(Node add) {
 //Caller to expand nodes, while solution is not found, expand.		(functional)
 void Tree::expand_frontier() {
 	while (this->goal_vector.empty()) {
+		frontier_update();
 		print_frontier_front();
 		print_GH(this->frontier.front());
 		print_expanded_size();
@@ -334,8 +337,8 @@ void Tree::print_solution() {
 		print_GH(temp);
 
 		printf("***Directions***\n");
-		for (int k = 0; k < temp.dir.size(); ++k) {
-			cout << temp.dir.at(k) << endl;
+		for (int l = 0; l < temp.dir.size(); ++l) {
+			cout << temp.dir.at(l) << endl;
 		}
 	}
 
@@ -358,6 +361,7 @@ void Tree::print_expanded_size() {
 	if (!this->explored.empty()) {
 		cout << "Expanded: " << this->explored.size() << " \n";
 	}
+	printf("Maximum queue size: %d nodes\n", this->frontier_size);
 }
 
 //print g(n) and h(n) of a node.		(functional)
@@ -376,4 +380,11 @@ void Tree::print_node(Node a) {
 	}
 	printf("g(n): %d	h(n): %d\n", (int)a.cost, 0);
 	cout << endl;
+}
+
+
+void Tree::frontier_update() {
+	if (this->frontier_size < this->frontier.size()) {
+		this->frontier_size = this->frontier.size();
+	}
 }
