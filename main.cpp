@@ -102,7 +102,6 @@ int main() {
 		misplace_tree->calc_misplace(&temp);
 		misplace_tree->add_mfrontier(temp);
 		misplace_tree->expand_mfrontier();
-		misplace_tree->goal_exist();
 		misplace_tree->print_mexpanded();
 		misplace_tree->print_mfrontier();
 
